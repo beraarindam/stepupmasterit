@@ -18,7 +18,7 @@ class SettingsController extends Controller
 
     public function update(Request $request)
     {
-        $data = $request->except(['_token', 'site_logo', 'home_about_image']);
+        $data = $request->except(['_token', 'site_logo', 'site_favicon', 'home_about_image']);
 
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(
@@ -34,6 +34,17 @@ class SettingsController extends Controller
 
             Setting::updateOrCreate(
                 ['key' => 'site_logo'],
+                ['value' => 'uploads/settings/' . $filename]
+            );
+        }
+
+        if ($request->hasFile('site_favicon')) {
+            $file = $request->file('site_favicon');
+            $filename = time() . '_favicon.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/settings'), $filename);
+
+            Setting::updateOrCreate(
+                ['key' => 'site_favicon'],
                 ['value' => 'uploads/settings/' . $filename]
             );
         }
