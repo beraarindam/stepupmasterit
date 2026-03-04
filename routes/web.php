@@ -42,6 +42,14 @@ Route::middleware('web')->group(function () {
 
             // Testimonials Routes
             Route::resource('testimonials', App\Http\Controllers\Backend\TestimonialController::class);
+
+            // Page Management Routes
+            Route::prefix('pages')->name('pages.')->group(function () {
+                Route::get('/home', [App\Http\Controllers\Backend\PageController::class, 'home'])->name('home');
+                Route::post('/home', [App\Http\Controllers\Backend\PageController::class, 'homeUpdate'])->name('home.update');
+                Route::get('/about', [App\Http\Controllers\Backend\PageController::class, 'about'])->name('about');
+                Route::post('/about', [App\Http\Controllers\Backend\PageController::class, 'aboutUpdate'])->name('about.update');
+            });
         });
     });
 });

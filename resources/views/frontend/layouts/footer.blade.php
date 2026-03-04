@@ -49,11 +49,12 @@
                 <div class="col-md-3 col-sm-6 footer-col">
                     <h4 class="footer-heading">Popular Courses</h4>
                     <ul class="footer-links">
-                        <li><a href="#">2 Year Online MBA General</a></li>
-                        <li><a href="#">Certificate in HRM</a></li>
-                        <li><a href="#">Certificate in Marketing</a></li>
-                        <li><a href="#">Certificate in Finance</a></li>
-                        <li><a href="#">Corporate Programs</a></li>
+                        @php
+                            $footerCourses = \App\Models\Course::where('status', 'active')->latest()->take(5)->get();
+                        @endphp
+                        @foreach($footerCourses as $course)
+                            <li><a href="#">{{ $course->title }}</a></li>
+                        @endforeach
                     </ul>
                 </div>
 

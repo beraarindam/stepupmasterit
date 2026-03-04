@@ -18,7 +18,7 @@ class SettingsController extends Controller
 
     public function update(Request $request)
     {
-        $data = $request->except(['_token', 'site_logo']);
+        $data = $request->except(['_token', 'site_logo', 'home_about_image']);
 
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(
@@ -37,6 +37,9 @@ class SettingsController extends Controller
                 ['value' => 'uploads/settings/' . $filename]
             );
         }
+
+
+        \Illuminate\Support\Facades\Cache::forget('site_settings');
 
         return redirect()->back()->with('success', 'Settings updated successfully.');
     }

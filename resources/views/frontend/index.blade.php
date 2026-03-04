@@ -2,8 +2,8 @@
 @section('title', 'Home')
 @section('content')
     <!-- ==============================================
-                                ** Banner Carousel **
-                                =================================================== -->
+                                        ** Banner Carousel **
+                                        =================================================== -->
     <div class="banner-outer">
         <div class="banner-slider">
             @forelse($banners as $banner)
@@ -95,31 +95,34 @@
     </style>
 
     <!-- ==============================================
-                                ** Who We Are (About Us) **
-                                =================================================== -->
+                                        ** Who We Are (About Us) **
+                                        =================================================== -->
     <section class="about padding-lg">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <div class="about-content">
-                        <h2><span>Who We Are</span> About Our Institution</h2>
-                        <p>{{ get_setting('site_description') }}</p>
-                        <p>We are dedicated to providing the highest quality education and training to empower the next
-                            generation of professionals. Our commitment to excellence is reflected in our diverse range of
-                            courses and world-class facilities.</p>
+                        <h2><span>{{ get_setting('home_about_heading', 'Who We Are') }}</span> {{ get_setting('home_about_subheading', 'About Our Institution') }}</h2>
+                        <p>{{ get_setting('home_about_description', get_setting('site_description', 'We are dedicated to providing the highest quality education and training to empower the next generation of professionals.')) }}</p>
+                        @php
+                            $highlights = array_filter(explode("\n", get_setting('home_about_highlights', "Certified Professional Instructors\nComprehensive Learning Materials\nIndustry-Recognized Certifications\nCareer Placement Support")));
+                        @endphp
+                        @if(count($highlights))
                         <ul class="check-list">
-                            <li><i class="fa fa-check-circle"></i> Certified Professional Instructors</li>
-                            <li><i class="fa fa-check-circle"></i> Comprehensive Learning Materials</li>
-                            <li><i class="fa fa-check-circle"></i> Industry-Recognized Certifications</li>
-                            <li><i class="fa fa-check-circle"></i> Career Placement Support</li>
+                            @foreach($highlights as $point)
+                                <li><i class="fa fa-check-circle"></i> {{ trim($point) }}</li>
+                            @endforeach
                         </ul>
-                        <a href="#" class="btn btn-primary-custom">Learn More About Us</a>
+                        @endif
+                        <a href="{{ get_setting('home_about_btn_link', '#') }}" class="btn btn-primary-custom">
+                            {{ get_setting('home_about_btn_text', 'Learn More About Us') }}
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="about-img mt-mobile-40">
-                        <img src="{{ asset('frontend/images/about-img.jpg') }}" class="img-responsive rounded-xl shadow-lg"
-                            alt="About Us" onerror="this.src='https://placehold.co/600x400?text=About+Us'">
+                        <img src="{{ get_setting('home_about_image') ? asset(get_setting('home_about_image')) : 'https://placehold.co/600x400?text=About+Us' }}"
+                            class="img-responsive rounded-xl shadow-lg" alt="About Us">
                     </div>
                 </div>
             </div>
@@ -127,28 +130,32 @@
     </section>
 
     <!-- ==============================================
-                                ** Our Services List **
-                                =================================================== -->
+                                        ** Our Services List **
+                                        =================================================== -->
     <section class="services-section padding-lg bg-gray-light">
         <div class="container text-center">
             <div class="section-header mb-50">
-                <h2>Our Specialized Services</h2>
-                <p>We offer a wide range of academic and support services to ensure every student succeeds.</p>
+                <h2>{{ get_setting('home_services_heading', 'Our Specialized Services') }}</h2>
+                <p>{{ get_setting('home_services_subheading', 'We offer a wide range of academic and support services to ensure every student succeeds.') }}</p>
             </div>
             <div class="row">
                 @foreach($services as $service)
-                    <div class="col-sm-4 mb-30">
-                        <div class="service-card transition-all">
-                            <div class="icon-wrapper">
-                                @if($service->icon_image)
-                                    <img src="{{ asset($service->icon_image) }}" alt="{{ $service->title }}">
-                                @else
-                                    <i class="fa fa-graduation-cap"></i>
-                                @endif
+                    <div class="col-md-4 col-sm-6 mb-30">
+                        <div class="service-box transition-all">
+                            <div class="service-icon-info">
+                                <div class="icon-circle">
+                                    @if($service->icon_image)
+                                        <img src="{{ asset($service->icon_image) }}" alt="{{ $service->title }}" class="icon-img">
+                                    @else
+                                        <i class="fa fa-graduation-cap"></i>
+                                    @endif
+                                </div>
                             </div>
-                            <h3>{{ $service->title }}</h3>
-                            <p>{{ Str::limit($service->short_description, 100) }}</p>
-                            <a href="#" class="read-more">Read More <i class="fa fa-arrow-right"></i></a>
+                            <div class="service-detail">
+                                <h3>{{ $service->title }}</h3>
+                                <p>{{ Str::limit($service->short_description, 100) }}</p>
+                                <a href="#" class="btn-read-more">READ MORE <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -157,81 +164,74 @@
     </section>
 
     <!-- ==============================================
-                                ** Global Statistics **
-                                =================================================== -->
+                                        ** Global Statistics **
+                                        =================================================== -->
     <section class="why-choose padding-lg bg-dark text-white">
         <div class="container">
-            <h2 class="text-white text-center mb-50">Empowering Students Worldwide</h2>
+            <h2 class="text-white text-center mb-50">{{ get_setting('home_stats_heading', 'Empowering Students Worldwide') }}</h2>
             <ul class="our-strength">
-                <li>
-                    <div class="icon"><span class="icon-certification-icon"> </span></div>
-                    <span class="counter">36</span>
-                    <div class="title">Certified Courses</div>
-                </li>
-                <li>
-                    <div class="icon"><span class="icon-student-icon"></span></div>
-                    <span class="counter">258,658</span>
-                    <div class="title">Students Enrolled </div>
-                </li>
-                <li>
-                    <div class="icon"><span class="icon-book-icon"></span></div>
-                    <div class="couter-outer"><span class="counter">95</span><span>%</span></div>
-                    <div class="title">Success Rate</div>
-                </li>
-                <li>
-                    <div class="icon"><span class="icon-parents-icon"></span></div>
-                    <div class="couter-outer"><span class="counter">100</span><span>%</span></div>
-                    <div class="title">Satisfied Students</div>
-                </li>
+                @for($i = 1; $i <= 4; $i++)
+                    @php
+                        $val    = get_setting('home_stat'.$i.'_value', '');
+                        $label  = get_setting('home_stat'.$i.'_label', '');
+                        $suffix = get_setting('home_stat'.$i.'_suffix', '');
+                        $icons  = ['icon-certification-icon','icon-student-icon','icon-book-icon','icon-parents-icon'];
+                    @endphp
+                    @if($val || $label)
+                    <li>
+                        <div class="icon"><span class="{{ $icons[$i-1] }}"> </span></div>
+                        <div class="couter-outer"><span class="counter">{{ $val }}</span>@if($suffix)<span>{{ $suffix }}</span>@endif</div>
+                        <div class="title">{{ $label }}</div>
+                    </li>
+                    @endif
+                @endfor
             </ul>
         </div>
     </section>
 
     <!-- ==============================================
-                                ** Course List **
-                                =================================================== -->
+                                        ** Course List **
+                                        =================================================== -->
     <section class="course-list padding-lg">
         <div class="container">
             <div class="section-header text-center mb-50">
-                <h2>Popular Courses</h2>
-                <p>Explore our most sought-after programs designed for your career growth.</p>
+                <h2>{{ get_setting('home_courses_heading', 'Popular Courses') }}</h2>
+                <p>{{ get_setting('home_courses_subheading', 'Explore our most sought-after programs designed for your career growth.') }}</p>
             </div>
-            <div class="row">
-                @foreach($courses as $course)
-                    <div class="col-sm-4 mb-40">
-                        <div class="course-item shadow-sm transition-all hover-translate-y">
-                            <div class="course-thumb">
-                                <img src="{{ asset($course->image) }}" class="img-responsive" alt="{{ $course->title }}"
+            <div class="our-cources">
+                <div class="course-slider owl-carousel">
+                    @foreach($courses as $course)
+                        <div class="course-card shadow-sm transition-all border border-light">
+                            <div class="course-thumb relative">
+                                <img src="{{ asset($course->image) }}" class="course-img" alt="{{ $course->title }}"
                                     onerror="this.src='https://placehold.co/600x400?text=Course+Image'">
-                                <div class="course-overlay">
-                                    <a href="#" class="btn btn-white-outline">View Details</a>
-                                </div>
                             </div>
-                            <div class="course-info p-25">
-                                <div class="meta mb-15">
-                                    <span class="duration"><i class="fa fa-clock-o"></i> {{ $course->duration }}</span>
-                                    <span class="fee pull-right text-primary font-bold">{{ $course->fee }}</span>
+                            <div class="course-body p-25 bg-white">
+                                <h3 class="course-title font-bold text-20 mb-5">
+                                    <a href="#" class="text-secondary">{{ $course->title }}</a>
+                                </h3>
+                                <div class="course-subtitle text-gray text-13 mb-15">
+                                    {{ Str::limit($course->short_description, 100) }}
                                 </div>
-                                <h3 class="mb-15"><a href="#">{{ $course->title }}</a></h3>
-                                <p class="text-gray">{{ Str::limit($course->short_description, 120) }}</p>
-                                <div class="footer-meta mt-20 pt-15 border-top">
-                                    <a href="#" class="enroll-btn text-primary font-bold">Enroll Now <i
-                                            class="fa fa-long-arrow-right"></i></a>
+                                
+                                <div class="course-footer flex justify-center items-center pt-15 border-top">
+                                    <a href="#" class="btn-view-details">VIEW DETAILS</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-            <div class="text-center mt-30">
-                <a href="#" class="btn btn-dark-outline btn-lg">View All Courses</a>
+            <div class="text-center mt-50">
+                <a href="#" class="btn-primary-custom">VIEW ALL COURSES</a>
             </div>
         </div>
     </section>
 
+
     <!-- ==============================================
-                                ** Custom Styles **
-                                =================================================== -->
+                                        ** Custom Styles **
+                                        =================================================== -->
     <style>
         .bg-gray-light {
             background-color: #f9fafb;
@@ -328,140 +328,435 @@
             font-size: 18px;
         }
 
-        /* Service Cards */
-        .service-card {
+        /* ==============================================
+           Enhanced Services & Courses UI
+           ============================================== */
+        
+        /* --- Enhanced Services UI (Professional & High-End) --- */
+        .services-section {
+            background-color: #f8fbff;
+        }
+
+        .service-box {
             background: #fff;
-            padding: 40px 30px;
-            border-radius: 15px;
-            border: 1px solid #edf2f7;
+            padding: 50px 30px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
             text-align: center;
+            height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .service-card:hover {
-            border-color: #1b305c;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+        .service-box:hover {
+            border-color: #ff9600;
+            box-shadow: 0 10px 30px rgba(27, 48, 92, 0.08);
+            transform: translateY(-5px);
         }
 
-        .service-card .icon-wrapper {
-            width: 70px;
-            height: 70px;
+        .service-box::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #1b305c;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+
+        .service-box:hover::after {
+            transform: scaleX(1);
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
             background: #f0f7ff;
-            color: #1b305c;
-            line-height: 70px;
-            font-size: 30px;
             border-radius: 50%;
-            margin: 0 auto 25px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 36px;
+            color: #1b305c;
+            transition: all 0.3s ease;
         }
 
-        .service-card .icon-wrapper img {
-            max-width: 40px;
+        .service-box:hover .icon-circle {
+            background: #1b305c;
+            color: #fff;
+            transform: rotateY(180deg);
         }
 
-        .service-card h3 {
+        .icon-img {
+            max-width: 45px;
+            height: auto;
+        }
+
+        .service-detail h3 {
             font-size: 20px;
+            color: #1b305c;
             margin-bottom: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .service-card p {
+        .service-detail p {
+            font-size: 15px;
             color: #718096;
-            font-size: 14px;
-            margin-bottom: 20px;
+            line-height: 1.6;
+            margin-bottom: 25px;
         }
 
-        .service-card .read-more {
+        .btn-read-more {
+            font-size: 13px;
             font-weight: 700;
             color: #1b305c;
-            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none !important;
+            transition: color 0.3s ease;
         }
 
-        /* Course Items */
-        .course-item {
+        .btn-read-more i {
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .service-box:hover .btn-read-more {
+            color: #ff9600;
+        }
+
+        .service-box:hover .btn-read-more i {
+            transform: translateX(5px);
+        }
+
+        /* --- Enhanced Course UI (Maya Reference Style) --- */
+        .course-card {
             background: #fff;
             border-radius: 12px;
             overflow: hidden;
+            margin: 15px 12px;
+            border: 1px solid #eee;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
             display: flex;
             flex-direction: column;
             height: 100%;
         }
 
+        .course-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transform: translateY(-5px);
+        }
+
         .course-thumb {
+            padding: 30px;
+            background: #f8fbff;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mini-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: #fff;
+            padding: 5px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .course-brand-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .course-img {
+            max-width: 85%;
+            max-height: 85%;
+            object-fit: contain;
+        }
+
+        .course-title {
+            font-size: 22px;
+            color: #1b305c;
+            line-height: 1.2;
+        }
+
+        .course-subtitle {
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .btn-view-details {
+            background: #1b305c;
+            color: #fff !important;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(27, 48, 92, 0.2);
+        }
+
+        .btn-view-details:hover {
+            background: #ff9600;
+            box-shadow: 0 4px 12px rgba(255,150,0,0.3);
+            transform: translateY(-2px);
+        }
+
+        .currency {
+            font-size: 16px;
+            margin-right: 2px;
+            color: #ff9600;
+        }
+
+        .text-22 { font-size: 22px; }
+        .text-20 { font-size: 20px; }
+        .bg-light { background-color: #f8fbff !important; }
+
+        /* Scrollable Slider Customization */
+        .course-slider .owl-nav button {
+            width: 45px;
+            height: 45px;
+            background: #333 !important;
+            border-radius: 50% !important;
+            color: #fff !important;
+            font-size: 18px !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+            opacity: 0.8;
+            margin: 0 !important;
+        }
+
+        .course-slider .owl-nav button:hover {
+            opacity: 1;
+            background: #1b305c !important;
+        }
+
+        .course-slider .owl-prev { left: -25px; }
+        .course-slider .owl-next { right: -25px; }
+
+        @media (max-width: 1199px) {
+            .course-slider .owl-prev { left: 0; }
+            .course-slider .owl-next { right: 0; }
+        }
+
+        /* Utilities */
+        .flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .items-center { align-items: center; }
+        .mt-20 { margin-top: 20px; }
+        .mb-15 { margin-bottom: 15px; }
+        .pt-15 { padding-top: 15px; }
+        .gap-5 { gap: 5px; }
+        .text-primary { color: #1b305c; }
+        .text-gray { color: #718096; }
+        .font-bold { font-weight: 700; }
+        
+        /* --- Global Course List Refinements --- */
+        .course-list {
+            background: #ffffff !important;
+            background-image: none !important;
+            position: relative;
+            z-index: 1;
+            padding: 80px 0 !important;
+        }
+
+        /* Kill theme-specific background and overlay on 'our-cources' */
+        .our-cources {
+            background: transparent !important;
+            background-image: none !important;
+            padding: 0 !important;
+            position: relative;
+        }
+
+        /* Essential: Disable the dark theme overlay */
+        .our-cources:after,
+        .course-list:after {
+            display: none !important;
+            content: none !important;
+        }
+
+        .course-list .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Course Card (Maya Style - High Contrast) */
+        .course-card {
+            background: #ffffff !important;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 12px;
+            border: 1px solid #edf2f7 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            display: flex !important;
+            flex-direction: column;
+            height: 100%;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .course-card:hover {
+            box-shadow: 0 15px 35px rgba(27, 48, 92, 0.12);
+            transform: translateY(-8px);
+            border-color: #1b305c !important;
+        }
+
+        .course-thumb {
+            padding: 0 !important;
+            background: #fff !important;
+            height: 240px !important;
+            width: 100% !important;
+            display: block !important;
             position: relative;
             overflow: hidden;
         }
 
-        .course-thumb img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+        .course-img {
+            display: block !important;
+            width: 100% !important;
+            min-width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        .course-item:hover .course-thumb img {
+        .course-card:hover .course-img {
+            transform: scale(1.15);
+        }
+
+        .course-body {
+            padding: 25px !important;
+            background: #ffffff !important;
+            flex-grow: 1;
+        }
+
+        .course-title {
+            font-size: 19px !important;
+            color: #1b305c !important;
+            line-height: 1.3 !important;
+            margin-bottom: 12px !important;
+            font-weight: 700 !important;
+            text-transform: none !important;
+        }
+
+        .course-title a {
+            color: #1b305c !important;
+            text-decoration: none !important;
+        }
+
+        .course-subtitle {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .course-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid #f0f4f8;
+            text-align: center;
+        }
+
+        .btn-view-details {
+            background: #1b305c !important;
+            color: #ffffff !important;
+            padding: 9px 22px !important;
+            border-radius: 50px !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(27, 48, 92, 0.15);
+        }
+
+        .btn-view-details:hover {
+            background: #ff9600 !important;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 150, 0, 0.3);
+            color: #ffffff !important;
+        }
+
+        /* Slider Controls (High Professionalism) */
+        .course-slider .owl-nav button {
+            width: 48px !important;
+            height: 48px !important;
+            background: #1b305c !important;
+            color: #ffffff !important;
+            border-radius: 50% !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+            position: absolute !important;
+            top: 45% !important;
+            margin-top: -24px !important;
+            opacity: 0.9;
+            transition: all 0.3s ease !important;
+            z-index: 10;
+        }
+
+        .course-slider .owl-nav button:hover {
+            opacity: 1;
+            background: #ff9600 !important;
             transform: scale(1.1);
         }
 
-        .course-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(27, 48, 92, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .course-slider .owl-prev { left: -30px !important; }
+        .course-slider .owl-next { right: -30px !important; }
+
+        .course-slider .owl-dots {
+            text-align: center;
+            margin-top: 40px;
         }
 
-        .course-item:hover .course-overlay {
-            opacity: 1;
+        .course-slider .owl-dot span {
+            width: 10px;
+            height: 10px;
+            background: #d1d9e6 !important;
+            display: inline-block;
+            margin: 0 6px;
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .course-info h3 {
-            font-size: 18px;
-            font-weight: 700;
+        .course-slider .owl-dot.active span {
+            background: #ff9600 !important;
+            width: 32px;
+            border-radius: 12px;
         }
 
-        .course-info h3 a {
-            color: #2d3748;
-            text-decoration: none;
-        }
-
-        .course-info h3 a:hover {
-            color: #1b305c;
-        }
-
-        .course-info .meta span {
-            font-size: 13px;
-            color: #718096;
-        }
-
+        /* Final Action Button */
         .btn-primary-custom {
+            display: inline-block;
             background-color: #1b305c;
-            color: #fff;
-            padding: 12px 25px;
+            color: #ffffff !important;
+            padding: 16px 40px;
             border-radius: 50px;
             font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            transition: all 0.4s ease;
+            text-decoration: none !important;
+            border: none;
+            box-shadow: 0 10px 20px rgba(27, 48, 92, 0.1);
         }
 
-        .btn-white-outline {
-            border: 2px solid #fff;
-            color: #fff;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-        }
-
-        .btn-dark-outline {
-            border: 2px solid #1b305c;
-            color: #1b305c;
-            padding: 12px 35px;
-            border-radius: 50px;
-            font-weight: 700;
+        .btn-primary-custom:hover {
+            background-color: #ff9600;
+            color: #ffffff !important;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 150, 0, 0.2);
         }
 
         @media (max-width: 767px) {
@@ -479,8 +774,8 @@
         }
 
         /* =============================================
-                                   Testimonials Section
-                                   ============================================= */
+                                           Testimonials Section
+                                           ============================================= */
         .testimonials-section {
             background: linear-gradient(135deg, #1b305c 0%, #152447 100%);
             padding: 80px 0;
@@ -686,8 +981,8 @@
     </style>
 
     <!-- ==============================================
-                                ** Testimonials Slider **
-                                =================================================== -->
+                                        ** Testimonials Slider **
+                                        =================================================== -->
     @if($testimonials->count() > 0)
         <section class="testimonials-section">
             <div class="container">
@@ -726,8 +1021,8 @@
     @endif
 
     <!-- ==============================================
-                        ** Contact / Enquiry Form **
-                        =================================================== -->
+                                ** Contact / Enquiry Form **
+                                =================================================== -->
     <section class="contact-section">
         <div class="container">
             <div class="row">
@@ -810,13 +1105,11 @@
                                 <div class="col-sm-6">
                                     <div class="form-group-custom">
                                         <label>Course of Interest</label>
-                                        <select class="cf-input">
+                                        <select class="cf-input" name="course_interest">
                                             <option value="">— Select a Course —</option>
-                                            <option>Online MBA General</option>
-                                            <option>Certificate in HRM</option>
-                                            <option>Certificate in Marketing</option>
-                                            <option>Certificate in Finance</option>
-                                            <option>Corporate Programs</option>
+                                            @foreach($courses as $course)
+                                                <option value="{{ $course->title }}">{{ $course->title }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -837,8 +1130,8 @@
 
     <style>
         /* =============================================
-                           Contact Section
-                           ============================================= */
+                                   Contact Section
+                                   ============================================= */
         .contact-section {
             padding: 80px 0;
             background: #fff;
@@ -1071,8 +1364,6 @@
                         1024: { items: 3 }
                     },
                     onInitialized: function () {
-                        // Move .owl-nav so it is a direct child of .testimonial-slider
-                        // and CSS absolute positioning works correctly
                         var $nav = $slider.find('.owl-nav');
                         $slider.prepend($nav);
                     }
@@ -1080,4 +1371,36 @@
             });
         </script>
     @endif
+
+    <script>
+        $(document).ready(function () {
+            var $courseSlider = $('.course-slider');
+            if ($courseSlider.length) {
+                $courseSlider.owlCarousel({
+                    loop: true,
+                    margin: 20,
+                    nav: true,
+                    dots: true,
+                    autoplay: true,
+                    autoplayTimeout: 4000,
+                    autoplayHoverPause: true,
+                    smartSpeed: 700,
+                    navText: [
+                        '<i class="fa fa-chevron-left"></i>',
+                        '<i class="fa fa-chevron-right"></i>'
+                    ],
+                    responsive: {
+                        0: { items: 1 },
+                        600: { items: 1 },
+                        768: { items: 2 },
+                        1024: { items: 4 }
+                    },
+                    onInitialized: function () {
+                        var $nav = $courseSlider.find('.owl-nav');
+                        $courseSlider.prepend($nav);
+                    }
+                });
+            }
+        });
+    </script>
 @endpush

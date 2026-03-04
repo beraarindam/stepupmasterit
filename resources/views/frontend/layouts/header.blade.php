@@ -5,41 +5,22 @@
     <!-- Start Header top Bar -->
     <div class="header-top">
         <div class="container clearfix">
-            <ul class="follow-us hidden-xs">
-                <li><a href="{{ get_setting('twitter_url', '#') }}" target="_blank"><i class="fa fa-twitter"
-                            aria-hidden="true"></i></a></li>
-                <li><a href="{{ get_setting('facebook_url', '#') }}" target="_blank"><i class="fa fa-facebook-official"
-                            aria-hidden="true"></i></a></li>
-                <li><a href="{{ get_setting('linkedin_url', '#') }}" target="_blank"><i class="fa fa-linkedin"
-                            aria-hidden="true"></i></a></li>
-                <li><a href="{{ get_setting('youtube_url', '#') }}" target="_blank"><i class="fa fa-youtube-play"
-                            aria-hidden="true"></i></a></li>
-                <li><a href="{{ get_setting('instagram_url', '#') }}" target="_blank"><i class="fa fa-instagram"
-                            aria-hidden="true"></i></a></li>
-            </ul>
+            <div class="welcome-msg hidden-xs">
+                Welcome to <strong>{{ get_setting('site_title', 'Step Up Master IT') }}</strong>
+            </div>
             <div class="right-block clearfix">
-                <ul class="top-nav hidden-xs">
-                    <li><a href="#">Register</a></li>
-                    <li><a href="#">Apply Online</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">FAQs</a></li>
+                <ul class="follow-us hidden-xs">
+                    <li><a href="{{ get_setting('twitter_url', '#') }}" target="_blank"><i class="fa fa-twitter"
+                                aria-hidden="true"></i></a></li>
+                    <li><a href="{{ get_setting('facebook_url', '#') }}" target="_blank"><i class="fa fa-facebook"
+                                aria-hidden="true"></i></a></li>
+                    <li><a href="{{ get_setting('linkedin_url', '#') }}" target="_blank"><i class="fa fa-linkedin"
+                                aria-hidden="true"></i></a></li>
+                    <li><a href="{{ get_setting('youtube_url', '#') }}" target="_blank"><i class="fa fa-youtube-play"
+                                aria-hidden="true"></i></a></li>
+                    <li><a href="{{ get_setting('instagram_url', '#') }}" target="_blank"><i class="fa fa-instagram"
+                                aria-hidden="true"></i></a></li>
                 </ul>
-                <div class="lang-wrapper">
-                    <div class="select-lang">
-                        <select id="currency_select">
-                            <option value="usd">USD</option>
-                            <option value="aud">AUD</option>
-                            <option value="gbp">GBP</option>
-                        </select>
-                    </div>
-                    <div class="select-lang2">
-                        <select class="custom_select">
-                            <option value="en">English</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                        </select>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -221,6 +202,62 @@
                 margin: 0 auto;
             }
         }
+
+        /* --- Header Top Refinements --- */
+        .header-top {
+            background: #162544;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .header-top .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        /* Override clearfix for flex layout */
+        .header-top .container::before,
+        .header-top .container::after {
+            display: none;
+        }
+
+        .welcome-msg {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .welcome-msg strong {
+            color: #ff9600;
+        }
+
+        .header-top .right-block .follow-us {
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            line-height: 1;
+        }
+
+        .header-top .right-block .follow-us li {
+            padding: 0;
+            margin: 0;
+            display: inline-flex;
+            font-size: 16px;
+        }
+
+        .header-top .right-block .follow-us li a {
+            color: rgba(255, 255, 255, 0.55);
+            transition: color 0.3s ease;
+        }
+
+        .header-top .right-block .follow-us li a:hover {
+            color: #ff9600;
+        }
     </style>
 
     <!-- Start Navigation -->
@@ -245,17 +282,10 @@
                             <li><a href="#">MBA Operations</a></li>
                         </ul>
                     </li>
+                    <li> <a href="#">Services</a></li>
+                    <li> <a href="#">Campus</a></li>
                     <li> <a href="#">Gallery</a></li>
-                    <li class="dropdown"> <a data-toggle="dropdown" href="#">Pages <i class="fa fa-angle-down"
-                                aria-hidden="true"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Latest News</a></li>
-                            <li><a href="#">Testimonials</a></li>
-                            <li><a href="#">Coming Soon</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Use</a></li>
-                        </ul>
-                    </li>
+                    <li> <a href="#">FAQ</a></li>
                     <li> <a href="#">Contact</a></li>
                 </ul>
             </div>

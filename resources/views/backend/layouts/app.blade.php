@@ -122,6 +122,32 @@
                         Testimonials
                     </a>
                 </li>
+                <!-- Page Management -->
+                <li x-data="{ open: {{ request()->routeIs('admin.pages.*') ? 'true' : 'false' }} }">
+                    <button @click="open = !open"
+                        class="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors {{ request()->routeIs('admin.pages.*') ? 'bg-primary/10 text-primary font-medium' : '' }}">
+                        <span class="flex items-center gap-3">
+                            <i class="fas fa-file-alt w-5"></i>
+                            Page Management
+                        </span>
+                        <i class="fas fa-chevron-down text-xs transition-transform duration-200"
+                            :class="open ? 'rotate-180' : ''"></i>
+                    </button>
+                    <ul x-show="open" x-transition class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-3">
+                        <li>
+                            <a href="{{ route('admin.pages.home') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->routeIs('admin.pages.home') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-home text-xs w-4"></i> Home Page
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pages.about') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->routeIs('admin.pages.about') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-info-circle text-xs w-4"></i> About Us
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li>
                     <a href="{{ route('admin.settings.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.settings.index') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-white/5 text-gray-300' }} transition-colors">
