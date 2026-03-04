@@ -2,83 +2,85 @@
 @section('title', "Manage Banners")
 @section('breadcrumb', "Admin / Banners")
 @section('content')
-<div class="space-y-6 animate-fade-in-up">
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center justify-between">
-        <div>
-            <h2 class="text-2xl font-bold text-gray-800">Banners Management <i class="fas fa-image"></i></h2>
-            <p class="text-gray-500 mt-1">Manage all the banners items.</p>
+    <div class="space-y-6 animate-fade-in-up">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex items-center justify-between">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">Banners Management <i class="fas fa-image"></i></h2>
+                <p class="text-gray-500 mt-1">Manage all the banners items.</p>
+            </div>
+            <div>
+                <a href="{{ route('admin.banners.create') }}"
+                    class="bg-primary hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm transition-colors duration-200 flex items-center">
+                    <i class="fas fa-plus mr-2"></i> Add New
+                </a>
+            </div>
         </div>
-        <div>
-            <a href="{{ route('admin.banners.create') }}" class="bg-primary hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-sm transition-colors duration-200 flex items-center">
-                <i class="fas fa-plus mr-2"></i> Add New
-            </a>
-        </div>
-    </div>
-    @if(session('success'))
-        <div class="bg-green-50 text-green-600 p-4 rounded-lg flex items-center shadow-sm border border-green-100">
-            <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
-        </div>
-    @endif
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
-                        <th class="px-6 py-4 font-medium">Image</th>
-                        <th class="px-6 py-4 font-medium capitalize">Title</th>
-                        <th class="px-6 py-4 font-medium">Status</th>
-                        <th class="px-6 py-4 font-medium text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100 text-sm">
-                    @forelse($banners as $item)
-                    <tr class="hover:bg-gray-50/50 transition-colors">
-                        <td class="px-6 py-4">
-                            @if($item->image)
-                                <img src="{{ asset($item->image) }}" class="w-12 h-10 object-cover rounded-lg border">
-                            @else
-                                <div class="w-12 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-                                    <i class="fas fa-image"></i>
-                                </div>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 font-medium text-gray-800">{{ Str::limit($item->title ?? 'No Title', 50) }}</td>
-                        <td class="px-6 py-4">
-                            @if($item->status == 'active')
-                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Active</span>
-                            @else
-                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-medium">Inactive</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <div class="flex items-center justify-end gap-2">
-                                <a href="{{ route('admin.banners.edit', $item->id) }}" class="text-blue-500 hover:bg-blue-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('admin.banners.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="4" class="px-6 py-8 text-center text-gray-500">
-                            No items found. <a href="{{ route('admin.banners.create') }}" class="text-primary hover:underline">Add your first item.</a>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+        @if(session('success'))
+            <div class="bg-green-50 text-green-600 p-4 rounded-lg flex items-center shadow-sm border border-green-100">
+                <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
+            </div>
+        @endif
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-6">
+            <div class="overflow-x-auto">
+                <table id="banner-table" class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                            <th class="px-6 py-4 font-medium">#</th>
+                            <th class="px-6 py-4 font-medium">Image</th>
+                            <th class="px-6 py-4 font-medium">Title</th>
+                            <th class="px-6 py-4 font-medium">Status</th>
+                            <th class="px-6 py-4 font-medium text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-sm">
+                        <!-- Data populated by DataTables -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
-<style>
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
-</style>
+
+    <script>
+        $(document).ready(function () {
+            $('#banner-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('admin.banners.index') }}",
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'image', name: 'image', orderable: false, searchable: false },
+                    { data: 'title', name: 'title' },
+                    { data: 'status', name: 'status' },
+                    { data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-right' }
+                ],
+                language: {
+                    paginate: {
+                        next: '<i class="fas fa-chevron-right text-xs"></i>',
+                        previous: '<i class="fas fa-chevron-left text-xs"></i>'
+                    }
+                },
+                drawCallback: function () {
+                    $('.dataTables_paginate > .paginate_button').addClass('px-3 py-1 bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 mx-1 rounded-md transition-colors');
+                    $('.dataTables_paginate > .current').addClass('!bg-primary !text-white !border-primary');
+                }
+            });
+        });
+    </script>
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+    </style>
 @endsection

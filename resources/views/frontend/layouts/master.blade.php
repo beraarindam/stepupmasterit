@@ -39,6 +39,8 @@
 
     @include('frontend.layouts.footer')
 
+    @stack('scripts')
+
 </body>
 
 </html>

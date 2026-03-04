@@ -9,6 +9,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -21,6 +25,22 @@
             }
         }
     </script>
+    <style>
+        .dataTables_wrapper .dataTables_length select {
+            padding-right: 2rem;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            padding: 0.4rem 0.8rem;
+        }
+
+        table.dataTable {
+            border-collapse: collapse !important;
+            width: 100% !important;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 flex h-screen overflow-hidden">

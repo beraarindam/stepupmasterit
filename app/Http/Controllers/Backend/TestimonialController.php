@@ -7,12 +7,54 @@ use Illuminate\Http\Request;
 
 use App\Models\Testimonial;
 
+use Yajra\DataTables\Facades\DataTables;
+
 class TestimonialController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $testimonials = Testimonial::latest()->get();
-        return view('backend.testimonials.index', compact('testimonials'));
+        if ($request->ajax()) {
+            $data = Testimonial::latest()->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('image', function ($row) {
+                    if ($row->image) {
+                        return '<img src="' . asset($row->image) . '" class="w-12 h-10 object-cover rounded-lg border">';
+                    }
+                    return '<div class="w-12 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400"><i class="fas fa-user-circle"></i></div>';
+                })
+                ->addColumn('name', function ($row) {
+                    return $row->name;
+                })
+                ->addColumn('designation', function ($row) {
+                    return $row->designation ?? 'N/A';
+                })
+                ->addColumn('status', function ($row) {
+                    if ($row->status == 'active') {
+                        return '<span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Active</span>';
+                    }
+                    return '<span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-medium">Inactive</span>';
+                })
+                ->addColumn('action', function ($row) {
+                    $btn = '<div class="flex items-center justify-end gap-2">
+                                <a href="' . route('admin.testimonials.edit', $row->id) . '" class="text-blue-500 hover:bg-blue-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="' . route('admin.testimonials.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this testimonial?\');" class="inline">
+                                    ' . csrf_field() . '
+                                    ' . method_field('DELETE') . '
+                                    <button type="submit" class="text-red-500 hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>';
+                    return $btn;
+                })
+                ->rawColumns(['image', 'status', 'action'])
+                ->make(true);
+        }
+
+        return view('backend.testimonials.index');
     }
 
     public function create()
