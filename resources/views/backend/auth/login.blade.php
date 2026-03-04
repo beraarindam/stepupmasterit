@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Education CMS</title>
+    <title>Admin Login - {{ get_setting('site_title', 'Step Up Master IT') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script>
@@ -18,14 +18,31 @@
                 }
             }
         }
+
     </script>
+    <style>
+        body {
+            background-image: linear-gradient(rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.7)), url('https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .login-card {
+            backdrop-filter: blur(8px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100 flex items-center justify-center h-screen">
+<body class="flex items-center justify-center min-h-screen p-4">
 
-    <div class="bg-white rounded-xl shadow-lg border border-gray-100 w-full max-w-md overflow-hidden">
+    <div
+        class="login-card rounded-2xl shadow-2xl border border-white/20 w-full max-w-md overflow-hidden animate-fade-in">
         <div class="bg-secondary text-white p-6 text-center">
-            <h2 class="text-2xl font-bold tracking-wider">EDU CMS</h2>
+            <h2 class="text-2xl font-bold tracking-wider uppercase">{{ get_setting('site_title', 'Step Up Master IT') }}
+            </h2>
             <p class="text-sm text-gray-300 mt-1">Admin Portal Access</p>
         </div>
         <div class="p-8">
@@ -90,7 +107,7 @@
             </form>
         </div>
         <div class="bg-gray-50 border-t border-gray-100 p-4 text-center text-sm text-gray-500">
-            &copy; {{ date('Y') }} Education CMS. All rights reserved.
+            &copy; {{ date('Y') }} {{ get_setting('site_title', 'Step Up Master IT') }}. All rights reserved.
         </div>
     </div>
 
