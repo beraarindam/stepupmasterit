@@ -48,9 +48,9 @@
                 </div>
             </div>
             <div class="col-sm-3">
-                <div class="footer-logo hidden-xs"><a href="index.html"><img src="images/footer-logo.png"
-                            class="img-responsive" alt=""></a></div>
-                <p>© 2020 <span>Edumart</span>. All rights reserved</p>
+                <div class="footer-logo hidden-xs"><a href="{{ url('/') }}"><img src="{{ get_logo() }}"
+                            class="img-responsive" alt="{{ get_setting('site_title') }}"></a></div>
+                <p>© {{ date('Y') }} <span>{{ get_setting('site_title') }}</span>. All rights reserved</p>
                 <ul class="terms clearfix">
                     <li><a href="terms.html">TERMS OF USE</a></li>
                     <li><a href="privacy.html">PRIVACY POLICY</a></li>
@@ -68,12 +68,16 @@
                     <div class="connect-us">
                         <h3>Connect with Us</h3>
                         <ul class="follow-us clearfix">
-                            <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                            <li><a href="{{ get_setting('facebook_url', '#') }}" target="_blank"><i
+                                        class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="{{ get_setting('twitter_url', '#') }}" target="_blank"><i class="fa fa-twitter"
+                                        aria-hidden="true"></i></a></li>
+                            <li><a href="{{ get_setting('linkedin_url', '#') }}" target="_blank"><i
+                                        class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                            <li><a href="{{ get_setting('youtube_url', '#') }}" target="_blank"><i
+                                        class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                            <li><a href="{{ get_setting('instagram_url', '#') }}" target="_blank"><i
+                                        class="fa fa-instagram" aria-hidden="true"></i></a></li>
                         </ul>
                     </div>
                 </div>

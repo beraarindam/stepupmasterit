@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0; maximum-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="{{ get_setting('site_description') }}">
+    <meta name="author" content="{{ get_setting('site_title') }}">
 
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
-    <title>@yield('title')</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{ get_setting_image('site_favicon', 'images/favicon.ico') }}">
+    <title>{{ get_setting('site_title') }} | @yield('title', 'Welcome')</title>
 
     <!-- CSS -->
     <link href="{{ asset('frontend/css/reset.css') }}" rel="stylesheet">
@@ -33,7 +33,7 @@
 
 <body>
 
-    @include('frontend.layouts.haeder')
+    @include('frontend.layouts.header')
 
     @yield('content')
 

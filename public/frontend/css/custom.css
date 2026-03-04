@@ -1,4 +1,4 @@
-﻿/*-------------------------------------------------------------------------------------
+/*-------------------------------------------------------------------------------------
 Theme Name:	Edumart
 Theme URI: 	http://protechtheme.com/edumart/
 Author: protechtheme
@@ -15,34 +15,34 @@ this is the file you need to edit to change the look of the Template.
 02. header
 03. navigation
 04. home sections
-	├─ banner
-	├─ about
-	├─ cources
-	├─ impotance
-	├─ how study
-	├─ why choose
-	├─ news & events
-	├─ campus tour
-	├─ client logos
-	├─ testimonials
+	+- banner
+	+- about
+	+- cources
+	+- impotance
+	+- how study
+	+- why choose
+	+- news & events
+	+- campus tour
+	+- client logos
+	+- testimonials
 05. footer
 06. index 2
-	├─ banner2
-	├─ Intro Sec
-	├─ Popular Cources Sec
-	├─ Whats Makes Different Sec
-	├─ How Study 2
-	├─ Why Choose 2
-	├─ Testimonials 2
-	├─ Brands 2
-	├─ Footer 2
+	+- banner2
+	+- Intro Sec
+	+- Popular Cources Sec
+	+- Whats Makes Different Sec
+	+- How Study 2
+	+- Why Choose 2
+	+- Testimonials 2
+	+- Brands 2
+	+- Footer 2
 07. about page
 08. cources listing page
-	├─ browse teacher
+	+- browse teacher
 09. course detail page
-	├─ course detail tab
-	├─ how to apply
-	├─ comments section
+	+- course detail tab
+	+- how to apply
+	+- comments section
 10. contact page
 11. blog page
 12. blog Single page
@@ -386,6 +386,18 @@ textarea:focus::placeholder{
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
+.site-logo {
+    max-height: 100px;
+    width: auto;
+    object-fit: contain;
+}
+@media (max-width: 767px) {
+    .site-logo {
+        max-height: 80px;
+        margin: 0 auto 15px;
+        display: block;
+    }
+}
 .header-middle .contact {
 	display: block;
 	padding: 8px 0 0 0;
@@ -422,14 +434,14 @@ textarea:focus::placeholder{
 .header-middle a.login {
 	display: inline-block;
 	padding: 5px 20px;
-	border: 2px #2c97ea solid;
+	border: 2px #1b305c solid;
 	border-radius: 5px;
 	font-size: 12px;
 	color: #6f7a7f;
 	font-weight: 700;
 }
 .header-middle a.login:hover {
-	background: #2c97ea;
+	background: #1b305c;
 	color: #fff;
 }
 .header-middle a.login span {
@@ -438,7 +450,7 @@ textarea:focus::placeholder{
 	margin-top: -2px;
 	margin-left: 10px;
 	font-size: 14px;
-	color: #00aaff;
+	color: #ff9600;
 }
 .header-middle a.login:hover span {
 	color: #fff;
@@ -456,13 +468,13 @@ textarea:focus::placeholder{
 	padding: 0px;
 }
 .navbar-inverse {
-	background: #17a43b;
+	background: #1b305c;
 }
 .nav > li > a {
 	padding: 19px 26px;
 }
 .navbar-nav > li {
-	border-right: 1px #5fc078 solid;
+	border-right: 1px #2e4a8d solid;
 }
 .navbar-nav > li > a {
 	text-transform: uppercase;
@@ -477,17 +489,17 @@ textarea:focus::placeholder{
 }
 .navbar-inverse .navbar-nav > li > a i {
 	font-size: 20px;
-	color: #8bd29d;
+	color: #94a5cc;
 }
 .navbar-inverse .navbar-nav > .open > a, 
 .navbar-inverse .navbar-nav > .open > a:focus, 
 .navbar-inverse .navbar-nav > .open > a:hover {
-	background: #4ab866;
+	background: #26417a;
 }
 .navbar-form {
 	width: 30%;
 	padding: 0 25px;
-	background: #4ab866;
+	background: #26417a;
 	margin: 0px;
 	position: relative;
 }
@@ -665,7 +677,7 @@ textarea:focus::placeholder{
 	opacity: 0.5;
 }
 .btn:hover, .btn:focus {
-	background: #2c97ea;
+	background: #1b305c;
 	color: #fff;
 }
 .btn.white {
@@ -673,15 +685,15 @@ textarea:focus::placeholder{
 	color: #595545;
 }
 .btn.white:hover {
-	background: #2c97ea;
+	background: #1b305c;
 	color: #fff;
 }
 .btn.blue {
-	background: #2c97ea;
+	background: #1b305c;
 	color: #fff;
 }
 .btn.blue:hover {
-	background: #17a43b;
+	background: #1b305c;
 }
 .banner-outer .bx-wrapper .bx-pager {
 	bottom: 60px;
@@ -736,11 +748,11 @@ textarea:focus::placeholder{
 	color: #ff9600;
 }
 .about ul.our-links li.prospects {
-	background: #2c97ea;
+	background: #1b305c;
 }
 .about ul.our-links li.prospects .detail a.more {
-	border: 2px #2c97ea solid;
-	color: #2c97ea;
+	border: 2px #1b305c solid;
+	color: #1b305c;
 }
 .about ul.our-links li.certification {
 	background: #f0bc01;
@@ -890,7 +902,7 @@ textarea:focus::placeholder{
 	color: #ff9600;
 }
 .about a.know-more:hover span {
-	color: #17a43b;
+	color: #1b305c;
 }
 
 /*-----------------------
@@ -1187,7 +1199,7 @@ textarea:focus::placeholder{
 }
 .how-study ul li:nth-child(2) .cnt-block h3:before, 
 .how-study ul li:nth-child(2) a.more:hover {
-	background: #17a43b;
+	background: #1b305c;
 }
 .how-study ul li:nth-child(3) .cnt-block h3:before, 
 .how-study ul li:nth-child(3) a.more:hover {
@@ -1236,7 +1248,7 @@ textarea:focus::placeholder{
 	top: 0px;
 	z-index: 1;
 	content: "";
-	background: #17a43b;
+	background: #1b305c;
 	opacity: 0.9;
 }
 .why-choose .container{
@@ -1331,7 +1343,7 @@ ul.our-strength li .title {
 	position: absolute;
 	right: 20px;
 	top: -32px;
-	background: #2c97ea;
+	background: #1b305c;
 	border-radius: 50%;
 	font-size: 34px;
 	color: #fff;
@@ -1468,7 +1480,7 @@ ul.our-strength li .title {
 	transition: all 0.3s ease 0s;
 }
 .news-events a.know-more:hover span {
-	color: #17a43b;
+	color: #1b305c;
 }
 
 /*-----------------------
@@ -1544,10 +1556,10 @@ ul.our-strength li .title {
 	color: #fff;
 }
 .campus-tour ul.gallery li a.more {
-	background: #17a43b;
+	background: #1b305c;
 }
 .campus-tour ul.gallery li a:hover {
-	background: #2c97ea;
+	background: #1b305c;
 }
 .mfp-arrow-left:before, 
 .mfp-arrow-left:after, 
@@ -1859,7 +1871,7 @@ ul.our-strength li .title {
 	float: right;
 	text-align:center;
 	position:relative;
-	background: #2c97ea;
+	background: #1b305c;
 	border-radius:0 5px 5px 0;
 	transition: all 0.3s ease 0s;
 }
@@ -1918,7 +1930,7 @@ a.scroll-top {
 	display: none;
 	right: 20px;
 	bottom: 20px;
-	background-color: #17a43b;
+	background-color: #1b305c;
     z-index: 999;
 }
 a.scroll-top:hover {
@@ -2108,7 +2120,7 @@ a.scroll-top:hover {
     color: #f5731f;
 }
 .intro-sec a.know-more:hover span {
-    color: #17a43b;
+    color: #1b305c;
 }
 
 /*---------------------------
@@ -2137,7 +2149,7 @@ a.scroll-top:hover {
     color: #f5731f;
 }
 .popular-cources a.view-courses:hover span {
-    color: #17a43b;
+    color: #1b305c;
 }
 .popular-cources h3{
     display: block;
@@ -2164,7 +2176,7 @@ a.scroll-top:hover {
 }
 .popular-cources ul.courses-list li .duration{
     padding: 6px 20px;
-    background: #2c97ea;
+    background: #1b305c;
     color: #fff;
     line-height: 18px;
     text-transform: uppercase;
@@ -2259,7 +2271,7 @@ a.scroll-top:hover {
     font-size: 18px;
 }
 .wt-makes-different .left a.read-more:hover span {
-    color: #17a43b;
+    color: #1b305c;
 }
 .wt-makes-different .right{
     padding: 120px 0 0 60px;
@@ -2335,7 +2347,7 @@ ul.makes-different-list li p{
     color: #8397a5;
 }
 .testimonial2 ul li p a{
-    color: #2c97ea;
+    color: #1b305c;
 }
 .testimonial2 ul li span{
     color: #ff9600;
@@ -2422,7 +2434,7 @@ ul.our-strength.opt2 li span {
 	color: #3f5044;
 }
 ul.our-strength.opt2 li .icon span {
-	color: #17a43b
+	color: #1b305c
 }
 ul.our-strength.opt2 li .title {
 	color: #9099a0;
@@ -2466,7 +2478,7 @@ ul.our-strength.opt2 li .title {
 	margin-top: -2px;
 }
 .about-video p a:hover {
-	color: #17a43b;
+	color: #1b305c;
 }
 .browse-teacher.grey-bg {
 	background: #f3f6f8;
@@ -2598,7 +2610,7 @@ a.download-prospects .small {
 }
 a.download-prospects:hover, 
 a.download-prospects:hover span {
-	color: #2c97ea;
+	color: #1b305c;
 }
 .about.inner {
 	background: none;
@@ -2625,7 +2637,7 @@ a.download-pros, a.download-cert {
 	line-height: 20px;
 }
 a.download-pros {
-	background: #2c97ea;
+	background: #1b305c;
 	border-right: 1px #fff solid;
 }
 a.download-cert {
@@ -2654,7 +2666,7 @@ a.download-pros .sm-txt, a.download-cert .sm-txt {
 }
 a.download-pros:hover, 
 a.download-cert:hover {
-	background-color: #17a43b;
+	background-color: #1b305c;
 }
 .select-course {
 	display: block;
@@ -2863,7 +2875,7 @@ ul.teachers-follow li:nth-child(3) a {
 }
 .enquire-now .inner {
 	padding: 40px 26px 30px 26px;
-	background: #2c97ea;
+	background: #1b305c;
 }
 .enquire-now .inner h3 {
 	display: block;
@@ -2923,7 +2935,7 @@ ul.teachers-follow li:nth-child(3) a {
 	opacity: 0.5;
 }
 .enquire-now .enquire-btn:hover {
-	background: #17a43b;
+	background: #1b305c;
 }
 .cert-head {
 	display: block;
@@ -2969,7 +2981,7 @@ ul.cert-list li:before {
 	top: 13px;
 	font-family: 'icomoon';
 	font-size: 15px;
-	color: #2c97ea;
+	color: #1b305c;
 	content: "\e91f";
 }
 ul.cert-list li:nth-last-child(2), 
@@ -2979,7 +2991,7 @@ ul.cert-list li:last-child {
 ul.cert-list li span {
 	display: inline-block;
 	margin-right: 6px;
-	color: #2c97ea;
+	color: #1b305c;
 }
 .course-detail {
 	display: block;
@@ -3007,7 +3019,7 @@ ul.cert-list li span {
 }
 .course-detail .duration.fee .detail {
 	font-size: 36px;
-	color: #17a43b;
+	color: #1b305c;
 }
 .course-detail .duration.fee .detail span {
 	padding-bottom: 10px;
@@ -3088,14 +3100,14 @@ ul.cert-list li span {
 .course-tab > li.active > a:hover, 
 .course-tab > li > a:hover {
 	background: none;
-	border-bottom: 2px #17a43b solid !important;
-	color: #17a43b;
+	border-bottom: 2px #1b305c solid !important;
+	color: #1b305c;
 }
 .course-tab > li.active > a span, 
 .course-tab > li.active > a:focus span, 
 .course-tab > li.active > a:hover span, 
 .course-tab > li > a:hover span {
-	color: #17a43b;
+	color: #1b305c;
 }
 .details-tab #curriculam, .details-tab #schedule {
 	background: #fff;
@@ -3114,7 +3126,7 @@ ul.cert-list li span {
 #curriculam .lecture-txt a.preview {
 	display: inline-block;
 	padding: 0 12px;
-	background: #2c97ea;
+	background: #1b305c;
 	font-size: 11px;
 	color: #fff;
 	border-radius: 2px;
@@ -3197,7 +3209,7 @@ ul.cert-list li span {
 	top: 8px;
 	font-family: 'icomoon';
 	font-size: 14px;
-	color: #2c97ea;
+	color: #1b305c;
 	content: "\e908";
 }
 #semester ul.content {
@@ -3221,7 +3233,7 @@ ul.cert-list li span {
 	top: -2px;
 	font-family: 'icomoon';
 	font-size: 16px;
-	color: #2c97ea;
+	color: #1b305c;
 	content: "\e908";
 }
 #semester ul.content > li:last-child {
@@ -3325,12 +3337,12 @@ ul.cert-list li span {
 	font-size: 18px;
 	line-height: 44px;
 	color: #fff;
-	background: #2c97ea;
+	background: #1b305c;
 	border-radius: 50%;
 }
 .how-apply ul li:hover .icon-block, 
 .how-apply ul li.active .icon-block {
-	background: #3eb25c;
+	background: #1b305c;
 }
 .how-apply ul li:hover .num, 
 .how-apply ul li.active .num {
@@ -3583,7 +3595,7 @@ ul.cert-list li span {
 	max-width: 360px;
 	margin: 96px 0;
 	float: right;
-	background: #17a43b;
+	background: #1b305c;
 	color: #fff;
 	box-shadow: 0 0 30px #bfcdbf;
 	position: relative;
@@ -3596,7 +3608,7 @@ ul.cert-list li span {
 .contact-detail .inner {
 	display: block;
 	padding: 18px 0;
-	border-bottom: 1px #45b662 solid;
+	border-bottom: 1px #2e4a8d solid;
 	position: relative;
 }
 .contact-detail .inner:before {
@@ -3709,7 +3721,7 @@ ul.cert-list li span {
 	margin: 30px 0 0 0;
 	font-size: 13px;
 	color: #fff;
-	background: #17a43b;
+	background: #1b305c;
 	border-radius: 4px;
 }
 .msg-success:after {
@@ -3782,7 +3794,7 @@ ul.blog-listing > li .read-more span {
 	transition: all 0.3s ease 0s;
 }
 ul.blog-listing > li .read-more:hover span {
-	color: #17a43b;
+	color: #1b305c;
 }
 ul.post-detail {
 	display: block;
@@ -3853,7 +3865,7 @@ ul.post-detail li .label {
 	transition: all 0.3s ease 0s;
 }
 .search-block .search:hover {
-	background: #17a43b;
+	background: #1b305c;
 }
 .blog-right h3 {
 	padding-bottom: 16px;
@@ -3898,7 +3910,7 @@ ul.post-detail li .label {
 	transition: all 0.3s ease 0s;
 }
 .category ul li a:hover span {
-	background: #2c97ea;
+	background: #1b305c;
 }
 .recent-post {
 	display: block;
@@ -4009,7 +4021,7 @@ ul.tags-list li a {
 	border-radius: 2px;
 }
 ul.tags-list li a:hover {
-	background: #17a43b;
+	background: #1b305c;
 }
 
 /* ================================================== */
@@ -4069,7 +4081,7 @@ ul.blog-listing.detail > li {
 	color: #fff;
 }
 .blog-left ul.follow-us li a:hover {
-	background: #17a43b;
+	background: #1b305c;
 	border-color: #1c7bc3;
 }
 .blog-left .comments-wrapper {
@@ -4362,7 +4374,7 @@ ul.faq-listing li h2 {
 	text-transform: uppercase;
 }
 .login-wrapper .btn:hover {
-	background: #17a43b;
+	background: #1b305c;
 }
 .login-wrapper .register {
 	display: block;
@@ -4393,7 +4405,7 @@ ul.faq-listing li h2 {
 	color: #6e7e83;
 }
 .login-wrapper a.forgot:hover {
-	color: #17a43b;
+	color: #1b305c;
 }
 .login-wrapper a.forgot span {
 	display: inline-block;
@@ -4408,7 +4420,7 @@ ul.faq-listing li h2 {
 	transition: all 0.3s ease 0s;
 }
 .login-wrapper a.forgot:hover span {
-	background: #17a43b;
+	background: #1b305c;
 }
 .login-wrapper .login-footer {
 	padding: 16px 20px;
@@ -4459,7 +4471,7 @@ ul.faq-listing li h2 {
 	top: 3px;
 	left: 3px;
 	line-height: 0.8;
-	color: #17a43b;
+	color: #1b305c;
 	transition: all .2s;
 }
 /* checked mark aspect changes */
@@ -4603,7 +4615,7 @@ ul.gallery-filter li:after {
 	bottom: -2px;
 	right: 0px;
 	content: "";
-	background: #17a43b;
+	background: #1b305c;
 	color: #4f4a4a;
 	transition: all 0.5s ease 0s;
 }
@@ -4670,7 +4682,7 @@ ul.news-listing > li .read-more span {
 	transition: all 0.3s ease 0s;
 }
 ul.news-listing > li .read-more:hover span {
-	color: #17a43b;
+	color: #1b305c;
 }
 .news-wrapper ul.post-detail {
 	padding-bottom: 10px;
@@ -4803,7 +4815,7 @@ ol.ord-listing li:before {
 	content: counter(li);
 	counter-increment: li;
 	color: #fff;
-	background: #17a43b;
+	background: #1b305c;
 	border-radius: 50%;
 	font-size: 12px;
 	font-weight: 700;
@@ -5062,16 +5074,16 @@ a.btn-circle {
 	color: #fff;
 }
 a.btn-circle.more {
-	background: #17a43b;
+	background: #1b305c;
 }
 a.btn-circle.plus {
-	background: #2c97ea;
+	background: #1b305c;
 }
 a.btn-circle.plus:hover {
 	background: #ff9600;
 }
 a.btn-circle:hover {
-	background: #2c97ea;
+	background: #1b305c;
 }
 .button-group a.btn {
 	margin: 0 8px;
@@ -5290,7 +5302,7 @@ a.btn-circle:hover {
     transition: all 0.3s ease 0s;
 }
 .coming-soon .stay-tuned .clear .button:hover{
-    background: #2c97ea;
+    background: #1b305c;
 }
 
 /* ================================================== */
@@ -7317,3 +7329,5 @@ a.btn-circle:hover {
  		padding: 0 8px;
 	}
 }
+
+
