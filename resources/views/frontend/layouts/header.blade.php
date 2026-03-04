@@ -5,11 +5,11 @@
     <!-- Start Header top Bar -->
     <div class="header-top">
         <div class="container clearfix">
-            <div class="welcome-msg hidden-xs">
+            <div class="welcome-msg">
                 Welcome to <strong>{{ get_setting('site_title', 'Step Up Master IT') }}</strong>
             </div>
             <div class="right-block clearfix">
-                <ul class="follow-us hidden-xs">
+                <ul class="follow-us">
                     <li><a href="{{ get_setting('twitter_url', '#') }}" target="_blank"><i class="fa fa-twitter"
                                 aria-hidden="true"></i></a></li>
                     <li><a href="{{ get_setting('facebook_url', '#') }}" target="_blank"><i class="fa fa-facebook"
@@ -71,7 +71,7 @@
 
     <style>
         .header-middle {
-            padding: 18px 0;
+            padding: 8px 0;
             background: #fff;
         }
 
@@ -83,7 +83,7 @@
         }
 
         .site-logo {
-            max-height: 95px;
+            max-height: 115px;
             width: auto;
             transition: transform 0.3s ease;
         }
@@ -96,7 +96,7 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: 35px;
+            gap: 25px;
         }
 
         .contact-item {
@@ -183,7 +183,8 @@
             }
 
             .logo-column {
-                margin-bottom: 25px;
+                margin-bottom: 5px;
+                width: 100%;
             }
 
             .contact-wrapper {
@@ -194,12 +195,14 @@
 
             .contact-item {
                 max-width: 100%;
+                justify-content: center;
                 text-align: left;
             }
 
             .site-logo {
-                max-height: 75px;
+                max-height: 105px;
                 margin: 0 auto;
+                padding: 5px 0;
             }
         }
 
@@ -213,8 +216,20 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 10px;
-            padding-bottom: 10px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        @media (max-width: 767px) {
+            .header-top .container {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .header-top .right-block .follow-us {
+                justify-content: center;
+            }
         }
 
         /* Override clearfix for flex layout */
@@ -258,6 +273,39 @@
         .header-top .right-block .follow-us li a:hover {
             color: #ff9600;
         }
+
+        /* --- Sticky Header --- */
+        header.sticky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.4s ease-out;
+            background: #fff;
+        }
+
+        header.sticky .header-top {
+            display: none;
+            /* Hide top bar on scroll for better space */
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Prevent content jump */
+        body.sticky-active {
+            padding-top: 180px;
+            /* Approximate height of full header */
+        }
     </style>
 
     <!-- Start Navigation -->
@@ -293,3 +341,25 @@
     </nav>
     <!-- End Navigation -->
 </header>
+
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            var $header = $('header');
+            var threshold = 150; // Scroll distance before making sticky
+
+            function updateSticky() {
+                if ($(window).scrollTop() > threshold) {
+                    $header.addClass('sticky');
+                    $('body').addClass('sticky-active');
+                } else {
+                    $header.removeClass('sticky');
+                    $('body').removeClass('sticky-active');
+                }
+            }
+
+            $(window).on('scroll', updateSticky);
+            updateSticky();
+        });
+    </script>
+@endpush
