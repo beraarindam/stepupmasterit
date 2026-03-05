@@ -71,7 +71,7 @@ class CampusController extends Controller
         ]);
 
         $data = $request->except(['image']);
-        $data['slug'] = Str::slug($request->title) . '-' . time();
+        $data['slug'] = create_slug(Campus::class, $request->title);
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -110,7 +110,7 @@ class CampusController extends Controller
 
         $data = $request->except(['image']);
         if ($request->title !== $campus->title) {
-            $data['slug'] = Str::slug($request->title) . '-' . time();
+            $data['slug'] = create_slug(Campus::class, $request->title, $campus->id);
         }
 
         if ($request->hasFile('image')) {

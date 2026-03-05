@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     protected $fillable = [
+        'category_id',
         'title',
         'slug',
         'duration',
@@ -16,4 +17,9 @@ class Course extends Model
         'image',
         'status'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(CourseCategory::class, 'category_id');
+    }
 }

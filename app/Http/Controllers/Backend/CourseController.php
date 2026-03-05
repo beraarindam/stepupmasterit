@@ -14,7 +14,7 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Course::latest()->get();
+            $data = Course::with('category')->latest()->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('image', function ($row) {
@@ -22,6 +22,9 @@ class CourseController extends Controller
                         return '<img src="' . asset($row->image) . '" class="w-12 h-10 object-cover rounded-lg border">';
                     }
                     return '<div class="w-12 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400"><i class="fas fa-book"></i></div>';
+                })
+                ->addColumn('category', function ($row) {
+                    return $row->category ? $row->category->name : '<span class="text-gray-400">No Category</span>';
                 })
                 ->addColumn('title', function ($row) {
                     return $row->title;
@@ -51,7 +54,7 @@ class CourseController extends Controller
                             </div>';
                     return $btn;
                 })
-                ->rawColumns(['image', 'duration_fee', 'status', 'action'])
+                ->rawColumns(['image', 'category', 'duration_fee', 'status', 'action'])
                 ->make(true);
         }
 
@@ -60,12 +63,14 @@ class CourseController extends Controller
 
     public function create()
     {
-        return view('backend.courses.create');
+        $categories = \App\Models\CourseCategory::where('status', 'active')->get();
+        return view('backend.courses.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
+            'category_id' => 'nullable|exists:course_categories,id',
             'title' => 'required|max:255',
             'duration' => 'nullable|max:255',
             'fee' => 'nullable|max:255',
@@ -76,7 +81,7 @@ class CourseController extends Controller
         ]);
 
         $data = $request->except(['image']);
-        $data['slug'] = Str::slug($request->title) . '-' . time();
+        $data['slug'] = create_slug(Course::class, $request->title);
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -98,7 +103,8 @@ class CourseController extends Controller
     public function edit(string $id)
     {
         $course = Course::findOrFail($id);
-        return view('backend.courses.edit', compact('course'));
+        $categories = \App\Models\CourseCategory::where('status', 'active')->get();
+        return view('backend.courses.edit', compact('course', 'categories'));
     }
 
     public function update(Request $request, string $id)
@@ -106,6 +112,7 @@ class CourseController extends Controller
         $course = Course::findOrFail($id);
 
         $request->validate([
+            'category_id' => 'nullable|exists:course_categories,id',
             'title' => 'required|max:255',
             'duration' => 'nullable|max:255',
             'fee' => 'nullable|max:255',
@@ -117,7 +124,7 @@ class CourseController extends Controller
 
         $data = $request->except(['image']);
         if ($request->title !== $course->title) {
-            $data['slug'] = Str::slug($request->title) . '-' . time();
+            $data['slug'] = create_slug(Course::class, $request->title, $course->id);
         }
 
         if ($request->hasFile('image')) {

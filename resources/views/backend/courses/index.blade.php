@@ -29,6 +29,7 @@
                         <tr class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
                             <th class="px-6 py-4 font-medium">#</th>
                             <th class="px-6 py-4 font-medium">Image</th>
+                            <th class="px-6 py-4 font-medium">Category</th>
                             <th class="px-6 py-4 font-medium">Title</th>
                             <th class="px-6 py-4 font-medium">Duration/Fee</th>
                             <th class="px-6 py-4 font-medium">Status</th>
@@ -52,6 +53,7 @@
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                     { data: 'image', name: 'image', orderable: false, searchable: false },
+                    { data: 'category', name: 'category' },
                     { data: 'title', name: 'title' },
                     { data: 'duration_fee', name: 'duration_fee' },
                     { data: 'status', name: 'status' },

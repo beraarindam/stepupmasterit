@@ -47,7 +47,7 @@
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
                                 <textarea name="home_about_description" rows="5"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none editor"
                                     placeholder="Main about us paragraph...">{{ $settings['home_about_description'] ?? '' }}</textarea>
                             </div>
                         </div>
@@ -104,7 +104,8 @@
                         @foreach([1, 2, 3, 4] as $i)
                             <div class="bg-gray-50 border border-gray-200 rounded-xl p-4">
                                 <p class="text-xs font-bold text-gray-500 uppercase mb-3 text-center border-b pb-1">Stat
-                                    {{ $i }}</p>
+                                    {{ $i }}
+                                </p>
                                 <div class="space-y-3">
                                     <div>
                                         <label class="block text-xs text-gray-600 mb-1 font-semibold">Value</label>
@@ -175,6 +176,9 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- SEO Section -->
+                @include('backend.pages.seo_partial', ['page' => 'home'])
 
                 <div class="pt-6 border-t border-gray-100 flex justify-end">
                     <button type="submit"

@@ -75,7 +75,7 @@ class BlogController extends Controller
         ]);
 
         $data = $request->except(['image']);
-        $data['slug'] = Str::slug($request->title) . '-' . time();
+        $data['slug'] = create_slug(Blog::class, $request->title);
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -115,7 +115,7 @@ class BlogController extends Controller
 
         $data = $request->except(['image']);
         if ($request->title !== $blog->title) {
-            $data['slug'] = Str::slug($request->title) . '-' . time();
+            $data['slug'] = create_slug(Blog::class, $request->title, $blog->id);
         }
 
         if ($request->hasFile('image')) {

@@ -71,7 +71,7 @@ class ServiceController extends Controller
         ]);
 
         $data = $request->except(['icon_image']);
-        $data['slug'] = Str::slug($request->title) . '-' . time();
+        $data['slug'] = create_slug(Service::class, $request->title);
 
         if ($request->hasFile('icon_image')) {
             $file = $request->file('icon_image');
@@ -111,7 +111,7 @@ class ServiceController extends Controller
 
         $data = $request->except(['icon_image']);
         if ($request->title !== $service->title) {
-            $data['slug'] = Str::slug($request->title) . '-' . time();
+            $data['slug'] = create_slug(Service::class, $request->title, $service->id);
         }
 
         if ($request->hasFile('icon_image')) {

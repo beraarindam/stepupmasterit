@@ -320,21 +320,24 @@
 
                 <ul class="nav navbar-nav">
                     <li> <a href="{{ url('/') }}">Home</a></li>
-                    <li> <a href="#">About</a></li>
-                    <li class="dropdown"> <a data-toggle="dropdown" href="#">Our Courses <i class="fa fa-angle-down"
-                                aria-hidden="true"></i></a>
+                    <li> <a href="{{ route('about') }}">About</a></li>
+                    <li class="dropdown"> <a data-toggle="dropdown" href="{{ route('courses') }}">Our Courses <i
+                                class="fa fa-angle-down" aria-hidden="true"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Course Listing</a></li>
-                            <li><a href="#">MBA Marketing</a></li>
-                            <li><a href="#">MBA General</a></li>
-                            <li><a href="#">MBA Operations</a></li>
+                            <li><a href="{{ route('courses') }}">All Courses</a></li>
+                            @php
+                                $headerCategories = \App\Models\CourseCategory::where('status', 'active')->orderBy('name')->get();
+                            @endphp
+                            @foreach($headerCategories as $cat)
+                                <li><a href="{{ route('category.courses', $cat->slug) }}">{{ $cat->name }}</a></li>
+                            @endforeach
                         </ul>
                     </li>
-                    <li> <a href="#">Services</a></li>
-                    <li> <a href="#">Campus</a></li>
-                    <li> <a href="#">Gallery</a></li>
-                    <li> <a href="#">FAQ</a></li>
-                    <li> <a href="#">Contact</a></li>
+                    <li> <a href="{{ route('services') }}">Services</a></li>
+                    <li> <a href="{{ route('campus') }}">Campus</a></li>
+                    <li> <a href="{{ route('gallery') }}">Gallery</a></li>
+                    <li> <a href="{{ route('faq') }}">FAQ</a></li>
+                    <li> <a href="{{ route('contact') }}">Contact</a></li>
                 </ul>
             </div>
         </div>

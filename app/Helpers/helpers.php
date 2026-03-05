@@ -2,6 +2,7 @@
 
 use App\Models\Setting;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 if (!function_exists('get_setting')) {
     /**
@@ -53,5 +54,34 @@ if (!function_exists('get_setting_image')) {
             return asset($image);
         }
         return $default_path ? asset($default_path) : '';
+    }
+}
+
+if (!function_exists('create_slug')) {
+    /**
+     * Create a unique slug for a model.
+     *
+     * @param string $model_class
+     * @param string $title
+     * @param int $id
+     * @return string
+     */
+    function create_slug($model_class, $title, $id = 0)
+    {
+        $slug = Str::slug($title);
+        $allSlugs = $model_class::select('slug')->where('slug', 'like', $slug . '%')
+            ->where('id', '<>', $id)
+            ->get();
+
+        if (!$allSlugs->contains('slug', $slug)) {
+            return $slug;
+        }
+
+        $i = 1;
+        while ($allSlugs->contains('slug', $slug . '-' . $i)) {
+            $i++;
+        }
+
+        return $slug . '-' . $i;
     }
 }

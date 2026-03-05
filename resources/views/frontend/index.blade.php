@@ -1,9 +1,14 @@
 @extends('frontend.layouts.master')
 @section('title', 'Home')
+
+@section('meta_title', get_setting('home_meta_title', get_setting('site_title')))
+@section('meta_description', get_setting('home_meta_description', get_setting('site_description')))
+@section('meta_keywords', get_setting('home_meta_keywords', get_setting('site_keywords')))
+
 @section('content')
     <!-- ==============================================
-                                        ** Banner Carousel **
-                                        =================================================== -->
+                                                        ** Banner Carousel **
+                                                        =================================================== -->
     <div class="banner-outer">
         <div class="banner-slider">
             @forelse($banners as $banner)
@@ -95,24 +100,27 @@
     </style>
 
     <!-- ==============================================
-                                        ** Who We Are (About Us) **
-                                        =================================================== -->
+                                                        ** Who We Are (About Us) **
+                                                        =================================================== -->
     <section class="about padding-lg">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <div class="about-content">
-                        <h2><span>{{ get_setting('home_about_heading', 'Who We Are') }}</span> {{ get_setting('home_about_subheading', 'About Our Institution') }}</h2>
-                        <p>{{ get_setting('home_about_description', get_setting('site_description', 'We are dedicated to providing the highest quality education and training to empower the next generation of professionals.')) }}</p>
+                        <h2><span>{{ get_setting('home_about_heading', 'Who We Are') }}</span>
+                            {{ get_setting('home_about_subheading', 'About Our Institution') }}</h2>
+                        <div class="description">
+                            {!! get_setting('home_about_description', 'Step Up Master IT is a premier educational institution dedicated to providing high-quality IT training and certification programs. Our mission is to empower students with the skills and knowledge needed to excel in the rapidly evolving technology landscape.') !!}
+                        </div>
                         @php
                             $highlights = array_filter(explode("\n", get_setting('home_about_highlights', "Certified Professional Instructors\nComprehensive Learning Materials\nIndustry-Recognized Certifications\nCareer Placement Support")));
                         @endphp
                         @if(count($highlights))
-                        <ul class="check-list">
-                            @foreach($highlights as $point)
-                                <li><i class="fa fa-check-circle"></i> {{ trim($point) }}</li>
-                            @endforeach
-                        </ul>
+                            <ul class="check-list">
+                                @foreach($highlights as $point)
+                                    <li><i class="fa fa-check-circle"></i> {{ trim($point) }}</li>
+                                @endforeach
+                            </ul>
                         @endif
                         <a href="{{ get_setting('home_about_btn_link', '#') }}" class="btn btn-primary-custom">
                             {{ get_setting('home_about_btn_text', 'Learn More About Us') }}
@@ -130,13 +138,14 @@
     </section>
 
     <!-- ==============================================
-                                        ** Our Services List **
-                                        =================================================== -->
+                                                        ** Our Services List **
+                                                        =================================================== -->
     <section class="services-section padding-lg bg-gray-light">
         <div class="container text-center">
             <div class="section-header mb-50">
                 <h2>{{ get_setting('home_services_heading', 'Our Specialized Services') }}</h2>
-                <p>{{ get_setting('home_services_subheading', 'We offer a wide range of academic and support services to ensure every student succeeds.') }}</p>
+                <p>{{ get_setting('home_services_subheading', 'We offer a wide range of academic and support services to ensure every student succeeds.') }}
+                </p>
             </div>
             <div class="row">
                 @foreach($services as $service)
@@ -154,7 +163,8 @@
                             <div class="service-detail">
                                 <h3>{{ $service->title }}</h3>
                                 <p>{{ Str::limit($service->short_description, 100) }}</p>
-                                <a href="#" class="btn-read-more">READ MORE <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                <a href="{{ route('service.details', $service->slug) }}" class="btn-read-more">READ MORE <i
+                                        class="fa fa-angle-right" aria-hidden="true"></i></a>
                             </div>
                         </div>
                     </div>
@@ -164,25 +174,28 @@
     </section>
 
     <!-- ==============================================
-                                        ** Global Statistics **
-                                        =================================================== -->
+                                                        ** Global Statistics **
+                                                        =================================================== -->
     <section class="why-choose padding-lg bg-dark text-white">
         <div class="container">
-            <h2 class="text-white text-center mb-50">{{ get_setting('home_stats_heading', 'Empowering Students Worldwide') }}</h2>
+            <h2 class="text-white text-center mb-50">
+                {{ get_setting('home_stats_heading', 'Empowering Students Worldwide') }}
+            </h2>
             <ul class="our-strength">
                 @for($i = 1; $i <= 4; $i++)
                     @php
-                        $val    = get_setting('home_stat'.$i.'_value', '');
-                        $label  = get_setting('home_stat'.$i.'_label', '');
-                        $suffix = get_setting('home_stat'.$i.'_suffix', '');
-                        $icons  = ['icon-certification-icon','icon-student-icon','icon-book-icon','icon-parents-icon'];
+                        $val = get_setting('home_stat' . $i . '_value', '');
+                        $label = get_setting('home_stat' . $i . '_label', '');
+                        $suffix = get_setting('home_stat' . $i . '_suffix', '');
+                        $icons = ['icon-certification-icon', 'icon-student-icon', 'icon-book-icon', 'icon-parents-icon'];
                     @endphp
                     @if($val || $label)
-                    <li>
-                        <div class="icon"><span class="{{ $icons[$i-1] }}"> </span></div>
-                        <div class="couter-outer"><span class="counter">{{ $val }}</span>@if($suffix)<span>{{ $suffix }}</span>@endif</div>
-                        <div class="title">{{ $label }}</div>
-                    </li>
+                        <li>
+                            <div class="icon"><span class="{{ $icons[$i - 1] }}"> </span></div>
+                            <div class="couter-outer"><span
+                                    class="counter">{{ $val }}</span>@if($suffix)<span>{{ $suffix }}</span>@endif</div>
+                            <div class="title">{{ $label }}</div>
+                        </li>
                     @endif
                 @endfor
             </ul>
@@ -190,13 +203,14 @@
     </section>
 
     <!-- ==============================================
-                                        ** Course List **
-                                        =================================================== -->
+                                                        ** Course List **
+                                                        =================================================== -->
     <section class="course-list padding-lg">
         <div class="container">
             <div class="section-header text-center mb-50">
                 <h2>{{ get_setting('home_courses_heading', 'Popular Courses') }}</h2>
-                <p>{{ get_setting('home_courses_subheading', 'Explore our most sought-after programs designed for your career growth.') }}</p>
+                <p>{{ get_setting('home_courses_subheading', 'Explore our most sought-after programs designed for your career growth.') }}
+                </p>
             </div>
             <div class="our-cources">
                 <div class="course-slider owl-carousel">
@@ -208,14 +222,16 @@
                             </div>
                             <div class="course-body p-25 bg-white">
                                 <h3 class="course-title font-bold text-20 mb-5">
-                                    <a href="#" class="text-secondary">{{ $course->title }}</a>
+                                    <a href="{{ route('course.details', $course->slug) }}"
+                                        class="text-secondary">{{ $course->title }}</a>
                                 </h3>
                                 <div class="course-subtitle text-gray text-13 mb-15">
                                     {{ Str::limit($course->short_description, 100) }}
                                 </div>
-                                
+
                                 <div class="course-footer flex justify-center items-center pt-15 border-top">
-                                    <a href="#" class="btn-view-details">VIEW DETAILS</a>
+                                    <a href="{{ route('course.details', $course->slug) }}" class="btn-view-details">VIEW
+                                        DETAILS</a>
                                 </div>
                             </div>
                         </div>
@@ -223,15 +239,15 @@
                 </div>
             </div>
             <div class="text-center mt-50">
-                <a href="#" class="btn-primary-custom">VIEW ALL COURSES</a>
+                <a href="{{ route('courses') }}" class="btn-primary-custom">VIEW ALL COURSES</a>
             </div>
         </div>
     </section>
 
 
     <!-- ==============================================
-                                        ** Custom Styles **
-                                        =================================================== -->
+                                                        ** Custom Styles **
+                                                        =================================================== -->
     <style>
         .bg-gray-light {
             background-color: #f9fafb;
@@ -329,9 +345,9 @@
         }
 
         /* ==============================================
-           Enhanced Services & Courses UI
-           ============================================== */
-        
+                           Enhanced Services & Courses UI
+                           ============================================== */
+
         /* --- Enhanced Services UI (Professional & High-End) --- */
         .services-section {
             background-color: #f8fbff;
@@ -342,7 +358,7 @@
             padding: 50px 30px;
             border-radius: 12px;
             border: 1px solid #eee;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
             text-align: center;
             height: 100%;
             transition: all 0.3s ease;
@@ -444,14 +460,14 @@
             overflow: hidden;
             margin: 15px 12px;
             border: 1px solid #eee;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
             display: flex;
             flex-direction: column;
             height: 100%;
         }
 
         .course-card:hover {
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             transform: translateY(-5px);
         }
 
@@ -471,7 +487,7 @@
             border-radius: 50%;
             background: #fff;
             padding: 5px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
 
         .course-brand-badge {
@@ -511,7 +527,7 @@
 
         .btn-view-details:hover {
             background: #ff9600;
-            box-shadow: 0 4px 12px rgba(255,150,0,0.3);
+            box-shadow: 0 4px 12px rgba(255, 150, 0, 0.3);
             transform: translateY(-2px);
         }
 
@@ -521,9 +537,17 @@
             color: #ff9600;
         }
 
-        .text-22 { font-size: 22px; }
-        .text-20 { font-size: 20px; }
-        .bg-light { background-color: #f8fbff !important; }
+        .text-22 {
+            font-size: 22px;
+        }
+
+        .text-20 {
+            font-size: 20px;
+        }
+
+        .bg-light {
+            background-color: #f8fbff !important;
+        }
 
         /* Scrollable Slider Customization */
         .course-slider .owl-nav button {
@@ -533,7 +557,7 @@
             border-radius: 50% !important;
             color: #fff !important;
             font-size: 18px !important;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
             opacity: 0.8;
             margin: 0 !important;
         }
@@ -543,26 +567,65 @@
             background: #1b305c !important;
         }
 
-        .course-slider .owl-prev { left: -25px; }
-        .course-slider .owl-next { right: -25px; }
+        .course-slider .owl-prev {
+            left: -25px;
+        }
+
+        .course-slider .owl-next {
+            right: -25px;
+        }
 
         @media (max-width: 1199px) {
-            .course-slider .owl-prev { left: 0; }
-            .course-slider .owl-next { right: 0; }
+            .course-slider .owl-prev {
+                left: 0;
+            }
+
+            .course-slider .owl-next {
+                right: 0;
+            }
         }
 
         /* Utilities */
-        .flex { display: flex; }
-        .justify-between { justify-content: space-between; }
-        .items-center { align-items: center; }
-        .mt-20 { margin-top: 20px; }
-        .mb-15 { margin-bottom: 15px; }
-        .pt-15 { padding-top: 15px; }
-        .gap-5 { gap: 5px; }
-        .text-primary { color: #1b305c; }
-        .text-gray { color: #718096; }
-        .font-bold { font-weight: 700; }
-        
+        .flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-15 {
+            margin-bottom: 15px;
+        }
+
+        .pt-15 {
+            padding-top: 15px;
+        }
+
+        .gap-5 {
+            gap: 5px;
+        }
+
+        .text-primary {
+            color: #1b305c;
+        }
+
+        .text-gray {
+            color: #718096;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
         /* --- Global Course List Refinements --- */
         .course-list {
             background: #ffffff !important;
@@ -711,8 +774,13 @@
             transform: scale(1.1);
         }
 
-        .course-slider .owl-prev { left: -30px !important; }
-        .course-slider .owl-next { right: -30px !important; }
+        .course-slider .owl-prev {
+            left: -30px !important;
+        }
+
+        .course-slider .owl-next {
+            right: -30px !important;
+        }
 
         .course-slider .owl-dots {
             text-align: center;
@@ -774,8 +842,8 @@
         }
 
         /* =============================================
-                                           Testimonials Section
-                                           ============================================= */
+                                                           Testimonials Section
+                                                           ============================================= */
         .testimonials-section {
             background: linear-gradient(135deg, #1b305c 0%, #152447 100%);
             padding: 80px 0;
@@ -981,8 +1049,8 @@
     </style>
 
     <!-- ==============================================
-                                        ** Testimonials Slider **
-                                        =================================================== -->
+                                                        ** Testimonials Slider **
+                                                        =================================================== -->
     @if($testimonials->count() > 0)
         <section class="testimonials-section">
             <div class="container">
@@ -1021,8 +1089,8 @@
     @endif
 
     <!-- ==============================================
-                                ** Contact / Enquiry Form **
-                                =================================================== -->
+                                                ** Contact / Enquiry Form **
+                                                =================================================== -->
     <section class="contact-section">
         <div class="container">
             <div class="row">
@@ -1130,8 +1198,8 @@
 
     <style>
         /* =============================================
-                                   Contact Section
-                                   ============================================= */
+                                                   Contact Section
+                                                   ============================================= */
         .contact-section {
             padding: 80px 0;
             background: #fff;

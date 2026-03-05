@@ -41,7 +41,7 @@ VALUES ('Super Admin', 'admin@example.com', 'admin', 'active', '$2y$12$N9uYmROJm
 CREATE TABLE IF NOT EXISTS `services` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(255) NOT NULL,
-  `slug` VARCHAR(255) NOT NULL UNIQUE,
+  `slug` VARCHAR(191) NOT NULL UNIQUE,
   `short_description` TEXT NULL,
   `description` LONGTEXT NULL,
   `icon_image` VARCHAR(255) NULL,
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `services` (
 CREATE TABLE IF NOT EXISTS `courses` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(255) NOT NULL,
-  `slug` VARCHAR(255) NOT NULL UNIQUE,
+  `slug` VARCHAR(191) NOT NULL UNIQUE,
   `duration` VARCHAR(255) NULL,
   `fee` VARCHAR(255) NULL,
   `short_description` TEXT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `courses` (
 CREATE TABLE IF NOT EXISTS `campuses` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(255) NOT NULL,
-  `slug` VARCHAR(255) NOT NULL UNIQUE,
+  `slug` VARCHAR(191) NOT NULL UNIQUE,
   `short_description` TEXT NULL,
   `description` LONGTEXT NULL,
   `image` VARCHAR(255) NULL,
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `campuses` (
 CREATE TABLE IF NOT EXISTS `blogs` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(255) NOT NULL,
-  `slug` VARCHAR(255) NOT NULL UNIQUE,
+  `slug` VARCHAR(191) NOT NULL UNIQUE,
   `short_description` TEXT NULL,
   `description` LONGTEXT NULL,
   `image` VARCHAR(255) NULL,
@@ -136,3 +136,18 @@ CREATE TABLE IF NOT EXISTS `testimonials` (
   `created_at` TIMESTAMP NULL,
   `updated_at` TIMESTAMP NULL
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE 'utf8mb4_unicode_ci';
+
+-- Course Categories Table
+CREATE TABLE IF NOT EXISTS `course_categories` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(255) NOT NULL,
+  `slug` VARCHAR(191) NOT NULL UNIQUE,
+  `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL
+) DEFAULT CHARACTER SET utf8mb4 COLLATE 'utf8mb4_unicode_ci';
+
+-- Add category_id to courses table
+ALTER TABLE `courses` 
+ADD COLUMN `category_id` BIGINT UNSIGNED NULL AFTER `id`,
+ADD CONSTRAINT `fk_course_category` FOREIGN KEY (`category_id`) REFERENCES `course_categories`(`id`) ON DELETE SET NULL;

@@ -13,6 +13,14 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.editor').each(function () {
+                CKEDITOR.replace(this);
+            });
+        });
+    </script>
     <script>
         tailwind.config = {
             theme: {
@@ -66,12 +74,37 @@
                         Users Management
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('admin.courses.index') }}"
-                        class="flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.courses.*') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-white/5 text-gray-300' }} transition-colors">
-                        <i class="fas fa-book w-5"></i>
-                        Courses
-                    </a>
+                <li
+                    x-data="{ open: {{ (request()->routeIs('admin.courses.*') || request()->routeIs('admin.course-categories.*')) ? 'true' : 'false' }} }">
+                    <button @click="open = !open"
+                        class="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-lg hover:bg-white/5 text-gray-300 transition-colors {{ (request()->routeIs('admin.courses.*') || request()->routeIs('admin.course-categories.*')) ? 'bg-primary/10 text-primary font-medium' : '' }}">
+                        <span class="flex items-center gap-3">
+                            <i class="fas fa-book w-5"></i>
+                            Course
+                        </span>
+                        <i class="fas fa-chevron-down text-xs transition-transform duration-200"
+                            :class="open ? 'rotate-180' : ''"></i>
+                    </button>
+                    <ul x-show="open" x-transition class="mt-1 ml-4 space-y-1 border-l border-gray-700 pl-3">
+                        <li>
+                            <a href="{{ route('admin.courses.index') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->routeIs('admin.courses.index') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-list text-xs w-4"></i> All Courses
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.course-categories.index') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->routeIs('admin.course-categories.*') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-tags text-xs w-4"></i> Course Category
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.courses.create') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->routeIs('admin.courses.create') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-plus text-xs w-4"></i> Add Course
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="{{ route('admin.services.index') }}"
@@ -144,6 +177,54 @@
                             <a href="{{ route('admin.pages.about') }}"
                                 class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->routeIs('admin.pages.about') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
                                 <i class="fas fa-info-circle text-xs w-4"></i> About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pages.index', 'services') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->url() == route('admin.pages.index', 'services') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-briefcase text-xs w-4"></i> Services Page
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pages.index', 'courses') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->url() == route('admin.pages.index', 'courses') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-book-reader text-xs w-4"></i> Courses Page
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pages.index', 'gallery') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->url() == route('admin.pages.index', 'gallery') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-images text-xs w-4"></i> Gallery Page
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pages.index', 'campus') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->url() == route('admin.pages.index', 'campus') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-university text-xs w-4"></i> Campus Page
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pages.index', 'faq') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->url() == route('admin.pages.index', 'faq') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-question-circle text-xs w-4"></i> FAQ Page
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pages.index', 'contact') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->url() == route('admin.pages.index', 'contact') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-envelope text-xs w-4"></i> Contact Page
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pages.index', 'terms') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->url() == route('admin.pages.index', 'terms') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-file-contract text-xs w-4"></i> Terms Page
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.pages.index', 'privacy') }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm {{ request()->url() == route('admin.pages.index', 'privacy') ? 'bg-primary/20 text-primary font-semibold' : 'text-gray-400 hover:text-white hover:bg-white/5' }} transition-colors">
+                                <i class="fas fa-shield-alt text-xs w-4"></i> Privacy Page
                             </a>
                         </li>
                     </ul>

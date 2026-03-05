@@ -36,12 +36,13 @@
                 <div class="col-md-2 col-sm-6 footer-col">
                     <h4 class="footer-heading">Quick Links</h4>
                     <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Our Courses</a></li>
-                        <li><a href="#">Gallery</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="{{ route('about') }}">About Us</a></li>
+                        <li><a href="{{ route('services') }}">Services</a></li>
+                        <li><a href="{{ route('courses') }}">Our Courses</a></li>
+                        <li><a href="{{ route('campus') }}">Our Campuses</a></li>
+                        <li><a href="{{ route('gallery') }}">Gallery</a></li>
+                        <li><a href="{{ route('faq') }}">FAQs</a></li>
+                        <li><a href="{{ route('contact') }}">Contact Us</a></li>
                     </ul>
                 </div>
 
@@ -53,7 +54,7 @@
                             $footerCourses = \App\Models\Course::where('status', 'active')->latest()->take(5)->get();
                         @endphp
                         @foreach($footerCourses as $course)
-                            <li><a href="#">{{ $course->title }}</a></li>
+                            <li><a href="{{ route('course.details', $course->slug) }}">{{ $course->title }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -108,9 +109,9 @@
                 </div>
                 <div class="col-sm-6 text-right">
                     <ul class="footer-bottom-links">
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Sitemap</a></li>
+                        <li><a href="{{ route('terms') }}">Terms of Use</a></li>
+                        <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
+                        <li><a href="{{ route('sitemap') }}">Sitemap</a></li>
                     </ul>
                 </div>
             </div>
