@@ -7,8 +7,8 @@
 
 @section('content')
     <!-- ==============================================
-                                                        ** Banner Carousel **
-                                                        =================================================== -->
+                                                            ** Banner Carousel **
+                                                            =================================================== -->
     <div class="banner-outer">
         <div class="banner-slider">
             @forelse($banners as $banner)
@@ -100,8 +100,8 @@
     </style>
 
     <!-- ==============================================
-                                                        ** Who We Are (About Us) **
-                                                        =================================================== -->
+                                                            ** Who We Are (About Us) **
+                                                            =================================================== -->
     <section class="about padding-lg">
         <div class="container">
             <div class="row">
@@ -138,8 +138,8 @@
     </section>
 
     <!-- ==============================================
-                                                        ** Our Services List **
-                                                        =================================================== -->
+                                                            ** Our Services List **
+                                                            =================================================== -->
     <section class="services-section padding-lg bg-gray-light">
         <div class="container text-center">
             <div class="section-header mb-50">
@@ -174,8 +174,8 @@
     </section>
 
     <!-- ==============================================
-                                                        ** Global Statistics **
-                                                        =================================================== -->
+                                                            ** Global Statistics **
+                                                            =================================================== -->
     <section class="why-choose padding-lg bg-dark text-white">
         <div class="container">
             <h2 class="text-white text-center mb-50">
@@ -203,8 +203,8 @@
     </section>
 
     <!-- ==============================================
-                                                        ** Course List **
-                                                        =================================================== -->
+                                                            ** Course List **
+                                                            =================================================== -->
     <section class="course-list padding-lg">
         <div class="container">
             <div class="section-header text-center mb-50">
@@ -246,8 +246,8 @@
 
 
     <!-- ==============================================
-                                                        ** Custom Styles **
-                                                        =================================================== -->
+                                                            ** Custom Styles **
+                                                            =================================================== -->
     <style>
         .bg-gray-light {
             background-color: #f9fafb;
@@ -345,8 +345,8 @@
         }
 
         /* ==============================================
-                           Enhanced Services & Courses UI
-                           ============================================== */
+                               Enhanced Services & Courses UI
+                               ============================================== */
 
         /* --- Enhanced Services UI (Professional & High-End) --- */
         .services-section {
@@ -842,8 +842,8 @@
         }
 
         /* =============================================
-                                                           Testimonials Section
-                                                           ============================================= */
+                                                               Testimonials Section
+                                                               ============================================= */
         .testimonials-section {
             background: linear-gradient(135deg, #1b305c 0%, #152447 100%);
             padding: 80px 0;
@@ -1049,8 +1049,8 @@
     </style>
 
     <!-- ==============================================
-                                                        ** Testimonials Slider **
-                                                        =================================================== -->
+                                                            ** Testimonials Slider **
+                                                            =================================================== -->
     @if($testimonials->count() > 0)
         <section class="testimonials-section">
             <div class="container">
@@ -1089,8 +1089,8 @@
     @endif
 
     <!-- ==============================================
-                                                ** Contact / Enquiry Form **
-                                                =================================================== -->
+                                                    ** Contact / Enquiry Form **
+                                                    =================================================== -->
     <section class="contact-section">
         <div class="container">
             <div class="row">
@@ -1148,18 +1148,27 @@
                 <div class="col-md-7 col-sm-12">
                     <div class="contact-form-card">
                         <h3>Send Us a Message</h3>
-                        <form id="homeContactForm">
+                        @if(session('success'))
+                            <div class="alert alert-success"
+                                style="background:#d4edda; color:#155724; padding:15px; border-radius:5px; margin-bottom: 20px;">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        <form id="homeContactForm" action="{{ route('contact.submit') }}" method="POST">
+                            @csrf
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group-custom">
                                         <label>Your Name <span>*</span></label>
-                                        <input type="text" class="cf-input" placeholder="e.g. John Doe" required>
+                                        <input type="text" name="name" class="cf-input" placeholder="e.g. John Doe"
+                                            required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group-custom">
                                         <label>Email Address <span>*</span></label>
-                                        <input type="email" class="cf-input" placeholder="e.g. john@email.com" required>
+                                        <input type="email" name="email" class="cf-input" placeholder="e.g. john@email.com"
+                                            required>
                                     </div>
                                 </div>
                             </div>
@@ -1167,13 +1176,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group-custom">
                                         <label>Phone Number</label>
-                                        <input type="tel" class="cf-input" placeholder="e.g. +91 98765 43210">
+                                        <input type="tel" name="phone" class="cf-input" placeholder="e.g. +91 98765 43210">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group-custom">
                                         <label>Course of Interest</label>
-                                        <select class="cf-input" name="course_interest">
+                                        <select class="cf-input" name="subject">
                                             <option value="">— Select a Course —</option>
                                             @foreach($courses as $course)
                                                 <option value="{{ $course->title }}">{{ $course->title }}</option>
@@ -1184,7 +1193,8 @@
                             </div>
                             <div class="form-group-custom">
                                 <label>Your Message</label>
-                                <textarea class="cf-input" rows="4" placeholder="Write your message here..."></textarea>
+                                <textarea name="message" class="cf-input" rows="4" placeholder="Write your message here..."
+                                    required></textarea>
                             </div>
                             <button type="submit" class="cf-submit-btn">
                                 <i class="fa fa-paper-plane"></i> Send Message
@@ -1198,8 +1208,8 @@
 
     <style>
         /* =============================================
-                                                   Contact Section
-                                                   ============================================= */
+                                                       Contact Section
+                                                       ============================================= */
         .contact-section {
             padding: 80px 0;
             background: #fff;

@@ -8,8 +8,8 @@
 @section('content')
 
     <!-- ==============================================
-                                    ** Inner Banner / Breadcrumb **
-                                    =================================================== -->
+                                        ** Inner Banner / Breadcrumb **
+                                        =================================================== -->
     <section class="inner-banner"
         style="background: url('{{ get_setting_image('contact_banner_image', 'https://placehold.co/1920x400?text=Contact+Us') }}') no-repeat center center / cover;">
         <div class="container">
@@ -27,8 +27,8 @@
     </section>
 
     <!-- ==============================================
-                                    ** Contact Details Section **
-                                    =================================================== -->
+                                        ** Contact Details Section **
+                                        =================================================== -->
     <section class="contact-details-section padding-lg">
         <div class="container">
             <div class="row items-center">
@@ -95,7 +95,14 @@
                             <h3>Send Us a <span>Message</span></h3>
                             <p>Have something to say? Fill out the form below and we will respond within 24 hours.</p>
                         </div>
-                        <form id="contactForm" class="modern-form">
+                        @if(session('success'))
+                            <div class="alert alert-success"
+                                style="background:#d4edda; color:#155724; padding:15px; border-radius:5px; margin-bottom: 20px;">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        <form id="contactForm" class="modern-form" action="{{ route('contact.submit') }}" method="POST">
+                            @csrf
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group-custom">
@@ -159,8 +166,8 @@
     </section>
 
     <!-- ==============================================
-                                    ** Map Section **
-                                    ==================================================== -->
+                                        ** Map Section **
+                                        ==================================================== -->
     <section class="map-section">
         <div class="container-fluid no-padding">
             <div class="map-wrapper">

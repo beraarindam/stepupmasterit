@@ -151,3 +151,16 @@ CREATE TABLE IF NOT EXISTS `course_categories` (
 ALTER TABLE `courses` 
 ADD COLUMN `category_id` BIGINT UNSIGNED NULL AFTER `id`,
 ADD CONSTRAINT `fk_course_category` FOREIGN KEY (`category_id`) REFERENCES `course_categories`(`id`) ON DELETE SET NULL;
+
+-- Contacts / Enquiries Table
+CREATE TABLE IF NOT EXISTS `contacts` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(255) NULL,
+  `subject` VARCHAR(255) NULL,
+  `message` TEXT NOT NULL,
+  `status` ENUM('unread', 'read') NOT NULL DEFAULT 'unread',
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL
+) DEFAULT CHARACTER SET utf8mb4 COLLATE 'utf8mb4_unicode_ci';

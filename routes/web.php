@@ -17,6 +17,7 @@ Route::get('/category/{slug}', [App\Http\Controllers\HomeController::class, 'cat
 Route::get('/service/{slug}', [App\Http\Controllers\HomeController::class, 'serviceDetails'])->name('service.details');
 Route::get('/campus', [App\Http\Controllers\HomeController::class, 'campus'])->name('campus');
 Route::get('/sitemap', [App\Http\Controllers\HomeController::class, 'sitemap'])->name('sitemap');
+Route::post('/contact/submit', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.submit');
 
 Route::middleware('web')->group(function () {
     // Admin Panel Routes
@@ -56,6 +57,9 @@ Route::middleware('web')->group(function () {
 
             // Testimonials Routes
             Route::resource('testimonials', App\Http\Controllers\Backend\TestimonialController::class);
+
+            // Contacts / Enquiries Routes
+            Route::resource('contacts', App\Http\Controllers\ContactController::class)->only(['index', 'show', 'destroy']);
 
             // Page Management Routes
             Route::prefix('pages')->name('pages.')->group(function () {

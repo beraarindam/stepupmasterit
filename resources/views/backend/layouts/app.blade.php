@@ -155,6 +155,13 @@
                         Testimonials
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.contacts.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.contacts.*') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-white/5 text-gray-300' }} transition-colors">
+                        <i class="fas fa-inbox w-5"></i>
+                        Enquiries (Contacts)
+                    </a>
+                </li>
                 <!-- Page Management -->
                 <li x-data="{ open: {{ request()->routeIs('admin.pages.*') ? 'true' : 'false' }} }">
                     <button @click="open = !open"
