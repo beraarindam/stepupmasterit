@@ -16,6 +16,7 @@ Route::get('/course/{slug}', [App\Http\Controllers\HomeController::class, 'cours
 Route::get('/category/{slug}', [App\Http\Controllers\HomeController::class, 'categoryCourses'])->name('category.courses');
 Route::get('/service/{slug}', [App\Http\Controllers\HomeController::class, 'serviceDetails'])->name('service.details');
 Route::get('/campus', [App\Http\Controllers\HomeController::class, 'campus'])->name('campus');
+Route::get('/campus/{slug}', [App\Http\Controllers\HomeController::class, 'campusDetails'])->name('campus.details');
 Route::get('/sitemap', [App\Http\Controllers\HomeController::class, 'sitemap'])->name('sitemap');
 Route::post('/contact/submit', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.submit');
 

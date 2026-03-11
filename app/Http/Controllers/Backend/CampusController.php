@@ -66,6 +66,10 @@ class CampusController extends Controller
             'title' => 'required|max:255',
             'short_description' => 'nullable',
             'description' => 'nullable',
+            'tab_overview' => 'nullable',
+            'tab_descriptions' => 'nullable',
+            'tab_career' => 'nullable',
+            'tab_summary' => 'nullable',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|in:active,inactive'
         ]);
@@ -104,6 +108,10 @@ class CampusController extends Controller
             'title' => 'required|max:255',
             'short_description' => 'nullable',
             'description' => 'nullable',
+            'tab_overview' => 'nullable',
+            'tab_descriptions' => 'nullable',
+            'tab_career' => 'nullable',
+            'tab_summary' => 'nullable',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|in:active,inactive'
         ]);

@@ -15,7 +15,7 @@ class HomeController extends Controller
     public function index()
     {
         $banners = Banner::where('status', 'active')->latest()->get();
-        $services = Service::where('status', 'active')->latest()->take(6)->get();
+        $services = Service::where('status', 'active')->latest()->take(3)->get();
         $courses = Course::where('status', 'active')->latest()->take(6)->get();
         $testimonials = Testimonial::where('status', 'active')->latest()->get();
 
@@ -94,6 +94,13 @@ class HomeController extends Controller
     {
         $campuses = Campus::where('status', 'active')->latest()->get();
         return view('frontend.campus', compact('campuses'));
+    }
+
+    public function campusDetails($slug)
+    {
+        $campus = Campus::where('slug', $slug)->where('status', 'active')->firstOrFail();
+        $other_campuses = Campus::where('id', '!=', $campus->id)->where('status', 'active')->latest()->take(5)->get();
+        return view('frontend.campus_details', compact('campus', 'other_campuses'));
     }
 
     public function terms()

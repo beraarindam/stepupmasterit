@@ -8,8 +8,8 @@
 @section('content')
 
     <!-- ==============================================
-                                                        ** Inner Banner / Breadcrumb **
-                                                        =================================================== -->
+                                                                        ** Inner Banner / Breadcrumb **
+                                                                        =================================================== -->
     <section class="inner-banner"
         style="background: url('{{ get_setting_image('services_banner_image', 'https://placehold.co/1920x400?text=Our+Services') }}') no-repeat center center / cover;">
         <div class="container">
@@ -28,8 +28,8 @@
     </section>
 
     <!-- ==============================================
-                                                        ** Services Grid Section **
-                                                        =================================================== -->
+                                                                        ** Services Grid Section **
+                                                                        =================================================== -->
     <section class="services-page-section padding-lg">
         <div class="container">
             <div class="section-header-premium text-center mb-60">
@@ -77,8 +77,8 @@
     </section>
 
     <!-- ==============================================
-                                                    ** CTA Section **
-                                                    =================================================== -->
+                                                                    ** CTA Section **
+                                                                    =================================================== -->
     <section class="cta-section padding-lg">
         <div class="container">
             <div class="cta-inner text-center">
@@ -98,7 +98,7 @@
     <style>
         /* --- Breadcrumb / Inner Banner --- */
         .inner-banner {
-            padding: 100px 0 80px;
+            padding: 300px 0 100px !important;
             position: relative;
             color: #fff;
             text-align: center;
@@ -236,6 +236,18 @@
             line-height: 1.6;
         }
 
+        /* --- Services Grid Section Fixes --- */
+        .services-page-section .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .services-page-section .row>[class*='col-'] {
+            display: flex;
+            flex-direction: column;
+        }
+
         /* --- Modern Service Card Premium --- */
         .modern-service-card-premium {
             background: #fff;
@@ -299,7 +311,9 @@
         .card-body-premium {
             padding: 40px 30px 30px;
             position: relative;
-            flex-grow: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .card-number {
@@ -329,15 +343,17 @@
         }
 
         .card-body-premium p {
-            font-size: 15px;
-            color: #64748b;
-            line-height: 1.6;
+            flex: 1;
             margin-bottom: 25px;
             position: relative;
             z-index: 1;
+            font-size: 15px;
+            color: #64748b;
+            line-height: 1.6;
         }
 
         .card-footer-premium {
+            margin-top: auto;
             padding-top: 20px;
             border-top: 1px solid #f1f5f9;
         }

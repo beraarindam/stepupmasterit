@@ -7,8 +7,8 @@
 
 @section('content')
     <!-- ==============================================
-                                                            ** Banner Carousel **
-                                                            =================================================== -->
+                                                                                ** Banner Carousel **
+                                                                                =================================================== -->
     <div class="banner-outer">
         <div class="banner-slider">
             @forelse($banners as $banner)
@@ -100,15 +100,15 @@
     </style>
 
     <!-- ==============================================
-                                                            ** Who We Are (About Us) **
-                                                            =================================================== -->
+                                                                                ** Who We Are (About Us) **
+                                                                                =================================================== -->
     <section class="about padding-lg">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
                     <div class="about-content">
-                        <h2><span>{{ get_setting('home_about_heading', 'Who We Are') }}</span>
-                            {{ get_setting('home_about_subheading', 'About Our Institution') }}</h2>
+                        <div class="section-badge">{{ get_setting('home_about_heading', 'Who We Are') }}</div>
+                        <h2>Learn About <span>Our Institution</span></h2>
                         <div class="description">
                             {!! get_setting('home_about_description', 'Step Up Master IT is a premier educational institution dedicated to providing high-quality IT training and certification programs. Our mission is to empower students with the skills and knowledge needed to excel in the rapidly evolving technology landscape.') !!}
                         </div>
@@ -138,8 +138,8 @@
     </section>
 
     <!-- ==============================================
-                                                            ** Our Services List **
-                                                            =================================================== -->
+                                                                                ** Our Services List **
+                                                                                =================================================== -->
     <section class="services-section padding-lg bg-gray-light">
         <div class="container text-center">
             <div class="section-header mb-50">
@@ -170,12 +170,15 @@
                     </div>
                 @endforeach
             </div>
+            <div class="text-center mt-40">
+                <a href="{{ route('services') }}" class="btn-primary-custom">VIEW ALL SERVICES</a>
+            </div>
         </div>
     </section>
 
     <!-- ==============================================
-                                                            ** Global Statistics **
-                                                            =================================================== -->
+                                                                                ** Global Statistics **
+                                                                                =================================================== -->
     <section class="why-choose padding-lg bg-dark text-white">
         <div class="container">
             <h2 class="text-white text-center mb-50">
@@ -203,8 +206,8 @@
     </section>
 
     <!-- ==============================================
-                                                            ** Course List **
-                                                            =================================================== -->
+                                                                                ** Course List **
+                                                                                =================================================== -->
     <section class="course-list padding-lg">
         <div class="container">
             <div class="section-header text-center mb-50">
@@ -246,8 +249,8 @@
 
 
     <!-- ==============================================
-                                                            ** Custom Styles **
-                                                            =================================================== -->
+                                                                                ** Custom Styles **
+                                                                                =================================================== -->
     <style>
         .bg-gray-light {
             background-color: #f9fafb;
@@ -291,6 +294,36 @@
 
         .mt-mobile-40 {
             margin-top: 40px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: #f0f7ff;
+            color: #1b305c;
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(27, 48, 92, 0.1);
+        }
+
+        .about-content h2 {
+            font-size: 38px;
+            color: #1b305c;
+            margin-bottom: 25px;
+            font-weight: 800;
+            line-height: 1.3;
+            text-transform: uppercase;
+        }
+
+        .about-content h2 span {
+            color: #ff9600 !important;
+            background: transparent !important;
+            padding: 0 !important;
+            display: inline !important;
         }
 
         .pt-15 {
@@ -345,12 +378,23 @@
         }
 
         /* ==============================================
-                               Enhanced Services & Courses UI
-                               ============================================== */
+                                                   Enhanced Services & Courses UI
+                                                   ============================================== */
 
         /* --- Enhanced Services UI (Professional & High-End) --- */
         .services-section {
             background-color: #f8fbff;
+        }
+
+        .services-section .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .services-section .row>[class*='col-'] {
+            display: flex;
+            flex-direction: column;
         }
 
         .service-box {
@@ -361,6 +405,9 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
             text-align: center;
             height: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -414,6 +461,12 @@
             height: auto;
         }
 
+        .service-detail {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
         .service-detail h3 {
             font-size: 20px;
             color: #1b305c;
@@ -428,6 +481,7 @@
             color: #718096;
             line-height: 1.6;
             margin-bottom: 25px;
+            flex: 1;
         }
 
         .btn-read-more {
@@ -842,8 +896,8 @@
         }
 
         /* =============================================
-                                                               Testimonials Section
-                                                               ============================================= */
+                                                                                   Testimonials Section
+                                                                                   ============================================= */
         .testimonials-section {
             background: linear-gradient(135deg, #1b305c 0%, #152447 100%);
             padding: 80px 0;
@@ -1049,8 +1103,8 @@
     </style>
 
     <!-- ==============================================
-                                                            ** Testimonials Slider **
-                                                            =================================================== -->
+                                                                                ** Testimonials Slider **
+                                                                                =================================================== -->
     @if($testimonials->count() > 0)
         <section class="testimonials-section">
             <div class="container">
@@ -1089,8 +1143,8 @@
     @endif
 
     <!-- ==============================================
-                                                    ** Contact / Enquiry Form **
-                                                    =================================================== -->
+                                                                        ** Contact / Enquiry Form **
+                                                                        =================================================== -->
     <section class="contact-section">
         <div class="container">
             <div class="row">
@@ -1208,8 +1262,8 @@
 
     <style>
         /* =============================================
-                                                       Contact Section
-                                                       ============================================= */
+                                                                           Contact Section
+                                                                           ============================================= */
         .contact-section {
             padding: 80px 0;
             background: #fff;

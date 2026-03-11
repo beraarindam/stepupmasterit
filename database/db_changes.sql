@@ -164,3 +164,10 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   `created_at` TIMESTAMP NULL,
   `updated_at` TIMESTAMP NULL
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE 'utf8mb4_unicode_ci';
+
+ALTER TABLE `campuses` 
+ADD COLUMN `tab_overview` LONGTEXT NULL AFTER `description`,
+ADD COLUMN `tab_descriptions` LONGTEXT NULL AFTER `tab_overview`,
+ADD COLUMN `tab_career` LONGTEXT NULL AFTER `tab_descriptions`,
+ADD COLUMN `tab_summary` LONGTEXT NULL AFTER `tab_career`;
+
