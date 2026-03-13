@@ -44,6 +44,9 @@ Route::middleware('web')->group(function () {
             // Campus Routes
             Route::resource('campuses', App\Http\Controllers\Backend\CampusController::class);
 
+            // Branches (Contact page) Routes
+            Route::resource('branches', App\Http\Controllers\Backend\BranchController::class);
+
             // Blogs Routes
             Route::resource('blogs', App\Http\Controllers\Backend\BlogController::class);
 

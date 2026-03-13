@@ -121,6 +121,13 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.branches.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.branches.*') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-white/5 text-gray-300' }} transition-colors">
+                        <i class="fas fa-map-marker-alt w-5"></i>
+                        Branches
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.blogs.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.blogs.*') ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-white/5 text-gray-300' }} transition-colors">
                         <i class="fas fa-newspaper w-5"></i>

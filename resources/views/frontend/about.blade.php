@@ -35,7 +35,7 @@
                 <div class="col-md-6">
                     <div class="about-text-content">
                         <div class="section-badge">{{ get_setting('home_about_heading', 'Who We Are') }}</div>
-                        <h2>Learn About <span>Step Up Master IT</span></h2>
+                        <h2>{!! get_setting('about_intro_heading', 'Learn About <span>Step Up Master IT</span>') !!}</h2>
                         <div class="description-text">
                             <p>{{ get_setting('home_about_description', 'We are dedicated to providing the highest quality education and training to empower the next generation of professionals.') }}
                             </p>
@@ -102,6 +102,11 @@
                 @endphp
 
                 @foreach($highlights as $index => $point)
+                    @php
+                        $parts = explode('|', $point, 2);
+                        $card_title = trim($parts[0]);
+                        $card_desc = isset($parts[1]) ? trim($parts[1]) : get_setting('about_why_card_description', 'Delivering world-class standards in specialized training and hands-on academic support.');
+                    @endphp
                     <div class="col-md-3 col-sm-6 mb-30">
                         <div class="modern-value-card" style="--accent-color: {{ $colors[$index % count($colors)] }};">
                             <div class="card-bg-number">0{{ $index + 1 }}</div>
@@ -111,9 +116,9 @@
                                 </div>
                             </div>
                             <div class="card-content-premium">
-                                <h3>{{ trim($point) }}</h3>
+                                <h3>{{ $card_title }}</h3>
                                 <div class="card-dash"></div>
-                                <p>Delivering world-class standards in specialized training and hands-on academic support.</p>
+                                <p>{{ $card_desc }}</p>
                             </div>
                         </div>
                     </div>
@@ -152,7 +157,7 @@
                     </div>
                 </div>
                 <div class="col-md-7">
-                    <div class="row">
+                    <div class="row values-cards-row">
                         @php
                             $v_icons = ['fa-check-square-o', 'fa-handshake-o', 'fa-lightbulb-o', 'fa-heart'];
                         @endphp
@@ -709,6 +714,23 @@
             font-size: 14px;
             color: #718096;
             margin: 0;
+        }
+
+        /* Core Values grid: center last card when odd number */
+        .values-cards-row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .values-cards-row .col-sm-6 {
+            display: flex;
+        }
+        .values-cards-row .value-simple-card {
+            height: 100%;
+        }
+        @media (min-width: 576px) {
+            .values-cards-row .col-sm-6:last-child:nth-child(odd) {
+                margin-left: 25%;
+            }
         }
 
         /* --- CTA Section --- */

@@ -71,7 +71,7 @@
                                 <textarea name="home_about_highlights" rows="5"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
                                     placeholder="Certified Professional Instructors&#10;Comprehensive Learning Materials&#10;Industry-Recognized Certifications&#10;Career Placement Support">{{ $settings['home_about_highlights'] ?? "Certified Professional Instructors\nComprehensive Learning Materials\nIndustry-Recognized Certifications\nCareer Placement Support" }}</textarea>
-                                <p class="text-xs text-gray-500 mt-1">Enter each highlight on a new line.</p>
+                                <p class="text-xs text-gray-500 mt-1">Enter each highlight on a new line. For About page cards: use <code>Title|Description</code> for custom descriptions (e.g. Academic Pathway|Guidance for students.).</p>
                             </div>
                         </div>
                     </div>

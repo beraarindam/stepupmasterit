@@ -171,3 +171,16 @@ ADD COLUMN `tab_descriptions` LONGTEXT NULL AFTER `tab_overview`,
 ADD COLUMN `tab_career` LONGTEXT NULL AFTER `tab_descriptions`,
 ADD COLUMN `tab_summary` LONGTEXT NULL AFTER `tab_career`;
 
+-- 13-03-2026
+
+ALTER TABLE `branches`
+    ADD COLUMN `name` VARCHAR(255) NOT NULL AFTER `id`,
+    ADD COLUMN `address` TEXT NULL AFTER `name`,
+    ADD COLUMN `phone` VARCHAR(255) NULL AFTER `address`,
+    ADD COLUMN `email` VARCHAR(255) NULL AFTER `phone`,
+    ADD COLUMN `opening_hours` TEXT NULL AFTER `email`,
+    ADD COLUMN `map_embed` TEXT NULL AFTER `opening_hours`,
+    ADD COLUMN `sort_order` INT NOT NULL DEFAULT 0 AFTER `map_embed`,
+    ADD COLUMN `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active' AFTER `sort_order`,
+    ADD COLUMN `created_at` TIMESTAMP NULL AFTER `status`,
+    ADD COLUMN `updated_at` TIMESTAMP NULL AFTER `created_at`;

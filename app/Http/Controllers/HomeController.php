@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Course;
 use App\Models\CourseCategory;
+use App\Models\Branch;
 use App\Models\Campus;
 use App\Models\Banner;
 use App\Models\Testimonial;
@@ -46,7 +47,8 @@ class HomeController extends Controller
 
     public function contact()
     {
-        return view('frontend.contact');
+        $branches = Branch::where('status', 'active')->orderBy('sort_order')->orderBy('name')->get();
+        return view('frontend.contact', compact('branches'));
     }
 
     public function gallery()

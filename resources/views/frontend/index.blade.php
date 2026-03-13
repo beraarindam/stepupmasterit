@@ -108,7 +108,7 @@
                 <div class="col-md-6">
                     <div class="about-content">
                         <div class="section-badge">{{ get_setting('home_about_heading', 'Who We Are') }}</div>
-                        <h2>Learn About <span>Our Institution</span></h2>
+                        <h2>{!! get_setting('home_about_subheading', 'Learn About <span>Our Institution</span>') !!}</h2>
                         <div class="description">
                             {!! get_setting('home_about_description', 'Step Up Master IT is a premier educational institution dedicated to providing high-quality IT training and certification programs. Our mission is to empower students with the skills and knowledge needed to excel in the rapidly evolving technology landscape.') !!}
                         </div>
@@ -118,7 +118,8 @@
                         @if(count($highlights))
                             <ul class="check-list">
                                 @foreach($highlights as $point)
-                                    <li><i class="fa fa-check-circle"></i> {{ trim($point) }}</li>
+                                    @php $title = str_contains($point, '|') ? trim(explode('|', $point, 2)[0]) : trim($point); @endphp
+                                    <li><i class="fa fa-check-circle"></i> {{ $title }}</li>
                                 @endforeach
                             </ul>
                         @endif

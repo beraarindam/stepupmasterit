@@ -42,39 +42,79 @@
                                 certifications, or career pathways, our team is ready to guide you.</p>
                         </div>
 
-                        <div class="info-card-list">
-                            <div class="info-card">
-                                <div class="info-icon"><i class="fa fa-map-marker"></i></div>
-                                <div class="info-text">
-                                    <h4>Visit Our Office</h4>
-                                    <p>{{ get_setting('contact_address', '123 Education St, Knowledge City, Country') }}</p>
+                        @if(isset($branches) && $branches->count() > 0)
+                            <p class="branch-section-label">Our Offices</p>
+                            <div class="branches-list">
+                                @foreach($branches as $index => $branch)
+                                    <div class="branch-card info-card {{ $index === 0 ? 'active' : '' }}">
+                                        <div class="branch-header">
+                                            <span class="branch-icon-wrap"><i class="fa fa-map-marker"></i></span>
+                                            <h4 class="branch-name">{{ $branch->name }}</h4>
+                                        </div>
+                                        <div class="branch-body">
+                                            @if($branch->address)
+                                                <div class="branch-detail">
+                                                    <i class="fa fa-map-marker"></i>
+                                                    <span>{{ $branch->address }}</span>
+                                                </div>
+                                            @endif
+                                            @if($branch->phone)
+                                                <div class="branch-detail">
+                                                    <i class="fa fa-phone"></i>
+                                                    <a href="tel:{{ preg_replace('/\s+/', '', $branch->phone) }}">{{ $branch->phone }}</a>
+                                                </div>
+                                            @endif
+                                            @if($branch->email)
+                                                <div class="branch-detail">
+                                                    <i class="fa fa-envelope-o"></i>
+                                                    <a href="mailto:{{ $branch->email }}">{{ $branch->email }}</a>
+                                                </div>
+                                            @endif
+                                            @if($branch->opening_hours)
+                                                <div class="branch-detail">
+                                                    <i class="fa fa-clock-o"></i>
+                                                    <span>{!! nl2br(e($branch->opening_hours)) !!}</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="info-card-list">
+                                <div class="info-card">
+                                    <div class="info-icon"><i class="fa fa-map-marker"></i></div>
+                                    <div class="info-text">
+                                        <h4>Visit Our Office</h4>
+                                        <p>{{ get_setting('contact_address', '123 Education St, Knowledge City, Country') }}</p>
+                                    </div>
+                                </div>
+                                <div class="info-card active">
+                                    <div class="info-icon"><i class="fa fa-phone"></i></div>
+                                    <div class="info-text">
+                                        <h4>Call Us Anytime</h4>
+                                        <p>{{ get_setting('contact_phone', '+1 234 567 8900') }}</p>
+                                    </div>
+                                </div>
+                                <div class="info-card">
+                                    <div class="info-icon"><i class="fa fa-envelope-o"></i></div>
+                                    <div class="info-text">
+                                        <h4>Email Support</h4>
+                                        <p>{{ get_setting('contact_email', 'hr@stepupmasterit.com') }}</p>
+                                    </div>
+                                </div>
+                                <div class="info-card">
+                                    <div class="info-icon"><i class="fa fa-clock-o"></i></div>
+                                    <div class="info-text">
+                                        <h4>Opening Hours</h4>
+                                        <p>{{ get_setting('contact_opening_hours', 'Mon - Fri: 9:00 AM - 6:00 PM') }}</p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="info-card active">
-                                <div class="info-icon"><i class="fa fa-phone"></i></div>
-                                <div class="info-text">
-                                    <h4>Call Us Anytime</h4>
-                                    <p>{{ get_setting('contact_phone', '+1 234 567 8900') }}</p>
-                                </div>
-                            </div>
-                            <div class="info-card">
-                                <div class="info-icon"><i class="fa fa-envelope-o"></i></div>
-                                <div class="info-text">
-                                    <h4>Email Support</h4>
-                                    <p>{{ get_setting('contact_email', 'hr@stepupmasterit.com') }}</p>
-                                </div>
-                            </div>
-                            <div class="info-card">
-                                <div class="info-icon"><i class="fa fa-clock-o"></i></div>
-                                <div class="info-text">
-                                    <h4>Opening Hours</h4>
-                                    <p>{{ get_setting('contact_opening_hours', 'Mon - Fri: 9:00 AM - 6:00 PM') }}</p>
-                                </div>
-                            </div>
-                        </div>
+                        @endif
 
-                        <div class="contact-social mt-40">
-                            <p>Follow our journey on social media:</p>
+                        <div class="contact-social">
+                            <p class="contact-social-label">Follow our journey on social media</p>
                             <ul class="social-links-contact">
                                 <li><a href="{{ get_setting('facebook_url', '#') }}" target="_blank"><i
                                             class="fa fa-facebook"></i></a></li>
@@ -96,9 +136,9 @@
                             <p>Have something to say? Fill out the form below and we will respond within 24 hours.</p>
                         </div>
                         @if(session('success'))
-                            <div class="alert alert-success"
-                                style="background:#d4edda; color:#155724; padding:15px; border-radius:5px; margin-bottom: 20px;">
-                                {{ session('success') }}
+                            <div class="alert-success-contact">
+                                <i class="fa fa-check-circle"></i>
+                                <span>{{ session('success') }}</span>
                             </div>
                         @endif
                         <form id="contactForm" class="modern-form" action="{{ route('contact.submit') }}" method="POST">
@@ -170,15 +210,22 @@
                                         ==================================================== -->
     <section class="map-section">
         <div class="container-fluid no-padding">
+            @php
+                $mapUrl = null;
+                if (isset($branches) && $branches->count() > 0) {
+                    $firstBranchWithMap = $branches->first(fn($b) => !empty(trim($b->map_embed ?? '')));
+                    $mapUrl = $firstBranchWithMap ? trim($firstBranchWithMap->map_embed) : null;
+                }
+                if (!$mapUrl) {
+                    $mapUrl = get_setting('contact_map_iframe');
+                }
+                if (!$mapUrl) {
+                    $mapUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117925.33439927714!2d88.2649502120485!3d22.535427313888876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f882db4908f667%3A0x43e330e68f6c2cbc!2sKolkata%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1709623861234!5m2!1sen!2sin';
+                }
+            @endphp
             <div class="map-wrapper">
-                @if(get_setting('contact_map_iframe'))
-                    <iframe src="{{ get_setting('contact_map_iframe') }}" width="100%" height="450" style="border:0;"
-                        allowfullscreen="" loading="lazy"></iframe>
-                @else
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117925.33439927714!2d88.2649502120485!3d22.535427313888876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f882db4908f667%3A0x43e330e68f6c2cbc!2sKolkata%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1709623861234!5m2!1sen!2sin"
-                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                @endif
+                <iframe src="{{ $mapUrl }}" width="100%" height="450" style="border:0;"
+                    allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
@@ -250,7 +297,6 @@
             margin: 0;
             opacity: 1 !important;
         }
-        }
 
         .breadcrumb-custom {
             list-style: none;
@@ -299,14 +345,21 @@
         }
 
         .section-header h2 {
-            font-size: 42px;
+            font-size: 38px;
             color: #1b305c;
             font-weight: 800;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
+            line-height: 1.2;
         }
 
         .section-header h2 span {
             color: #ff9600;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #64748b;
         }
 
         .header-line {
@@ -319,8 +372,8 @@
 
         /* --- Contact Details Section --- */
         .contact-details-section {
-            background-color: #fbfcfe;
-            padding-bottom: 100px;
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 80px 0 100px;
         }
 
         /* Info Card Styling */
@@ -395,11 +448,122 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        /* Branch Cards (dynamic) - Professional & User-Friendly */
+        .branch-section-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .branches-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .branch-card {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 28px 30px;
+            border-left: 4px solid transparent;
+            position: relative;
+        }
+        .branch-card:hover {
+            border-left-color: #ff9600;
+        }
+        .branch-card.active {
+            border-left-color: #ff9600;
+        }
+        .branch-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .branch-icon-wrap {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 150, 0, 0.12);
+            color: #ff9600;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .branch-card.active .branch-icon-wrap {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffb347;
+        }
+        .branch-card .branch-name {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 0;
+            color: #1e293b;
+            letter-spacing: 0.3px;
+        }
+        .branch-card.active .branch-name {
+            color: #fff;
+        }
+        .branch-body {
+            width: 100%;
+        }
+        .branch-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 10px;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #475569;
+        }
+        .branch-detail:last-child {
+            margin-bottom: 0;
+        }
+        .branch-detail i {
+            color: #ff9600;
+            margin-top: 4px;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+        .branch-card.active .branch-detail {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .branch-card.active .branch-detail i {
+            color: #ffb347;
+        }
+        .branch-detail a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .branch-detail a:hover {
+            color: #ff9600;
+        }
+        .branch-card.active .branch-detail a:hover {
+            color: #ffb347;
+        }
+
         /* --- Social Links --- */
+        .contact-social {
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        .contact-social-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
         .social-links-contact {
             list-style: none;
             padding: 0;
-            margin: 15px 0 0;
+            margin: 0;
             display: flex;
             gap: 12px;
         }
@@ -428,12 +592,16 @@
         /* --- Contact Form Wrapper --- */
         .contact-form-wrapper {
             background: #fff;
-            border-radius: 25px;
-            padding: 50px 40px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.04);
-            border: 1px solid #edf2f7;
+            border-radius: 20px;
+            padding: 48px 44px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02), 0 25px 50px rgba(27, 48, 92, 0.08);
+            border: 1px solid #e2e8f0;
             position: relative;
             z-index: 10;
+            transition: box-shadow 0.3s ease;
+        }
+        .contact-form-wrapper:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.03), 0 30px 60px rgba(27, 48, 92, 0.1);
         }
 
         .form-header h3 {
@@ -479,7 +647,7 @@
             transform: translateY(-50%);
             color: #a0aec0;
             font-size: 16px;
-            transition: count 0.3s;
+            transition: color 0.3s;
         }
 
         .input-wrap textarea+i {

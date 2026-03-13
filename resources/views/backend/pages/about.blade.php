@@ -65,6 +65,14 @@
                     <h4 class="text-md font-semibold text-gray-700 border-b pb-2 mb-4 text-indigo-700">
                         🎯 Mission & Vision
                     </h4>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">About Content Section Heading</label>
+                        <input type="text" name="about_intro_heading"
+                            value="{{ $settings['about_intro_heading'] ?? 'Learn About Step Up Master IT' }}"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                            placeholder="e.g. Learn About Step Up Master IT">
+                        <p class="text-xs text-gray-500 mt-1">Use HTML for styling, e.g. Learn About &lt;span&gt;Step Up Master IT&lt;/span&gt;</p>
+                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Our Mission</label>
@@ -98,6 +106,14 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Section Sub-heading</label>
                                 <textarea name="about_why_subheading" rows="3"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">{{ $settings['about_why_subheading'] ?? 'We provide industry-leading education with a focus on practical skills and career success.' }}</textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Default Card Description</label>
+                                <input type="text" name="about_why_card_description"
+                                    value="{{ $settings['about_why_card_description'] ?? 'Delivering world-class standards in specialized training and hands-on academic support.' }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                                    placeholder="Used when highlights don't have Title|Description format">
+                                <p class="text-xs text-gray-500 mt-1">Used when highlights (from Home page) don't include a pipe. In Home page, use <strong>Title|Description</strong> per line for unique card text.</p>
                             </div>
                         </div>
                         <div>
