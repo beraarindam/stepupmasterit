@@ -56,12 +56,34 @@ class PageController extends Controller
     public function aboutUpdate(Request $request)
     {
         $fileFields = ['about_banner_image'];
+        $exclude = array_merge(['_token', 'about_values_items'], $fileFields);
 
-        $data = $request->except(array_merge(['_token'], $fileFields));
+        $data = $request->except($exclude);
 
         foreach ($data as $key => $value) {
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
+
+        $rows = $request->input('about_values_items', []);
+        if (! is_array($rows)) {
+            $rows = [];
+        }
+        $clean = [];
+        foreach ($rows as $row) {
+            if (! is_array($row)) {
+                continue;
+            }
+            $title = trim((string) ($row['title'] ?? ''));
+            $desc = trim((string) ($row['description'] ?? ''));
+            if ($title === '' && $desc === '') {
+                continue;
+            }
+            $clean[] = ['title' => $title, 'description' => $desc];
+        }
+        Setting::updateOrCreate(
+            ['key' => 'about_values_items'],
+            ['value' => json_encode($clean, JSON_UNESCAPED_UNICODE)]
+        );
 
         if ($request->hasFile('about_banner_image')) {
             $file = $request->file('about_banner_image');

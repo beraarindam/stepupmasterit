@@ -57,6 +57,69 @@ if (!function_exists('get_setting_image')) {
     }
 }
 
+if (!function_exists('get_about_core_values')) {
+    /**
+     * Core values for the About page (admin JSON, legacy textarea, or defaults).
+     *
+     * @return array<int, array{title: string, description: string}>
+     */
+    function get_about_core_values(): array
+    {
+        static $fallback = null;
+        if ($fallback === null) {
+            $fallback = [
+                ['title' => 'Excellence', 'description' => 'We strive for the highest standards in everything we do.'],
+                ['title' => 'Inclusivity', 'description' => 'Education for all, regardless of background or status.'],
+                ['title' => 'Innovation', 'description' => 'Embracing new technologies to enhance learning.'],
+                ['title' => 'Passion', 'description' => 'We are dedicated to your success and growth.'],
+            ];
+        }
+
+        $json = get_setting('about_values_items');
+        if (is_string($json) && $json !== '') {
+            $decoded = json_decode($json, true);
+            if (is_array($decoded) && count($decoded) > 0) {
+                $out = [];
+                foreach ($decoded as $row) {
+                    if (! is_array($row)) {
+                        continue;
+                    }
+                    $title = trim((string) ($row['title'] ?? ''));
+                    $desc = trim((string) ($row['description'] ?? ''));
+                    if ($title === '' && $desc === '') {
+                        continue;
+                    }
+                    $out[] = ['title' => $title, 'description' => $desc];
+                }
+                if (count($out) > 0) {
+                    return $out;
+                }
+            }
+        }
+
+        $legacy = get_setting('about_values_list');
+        if (is_string($legacy) && $legacy !== '') {
+            $out = [];
+            foreach (preg_split("/\r\n|\n|\r/", $legacy) as $line) {
+                $line = trim($line);
+                if ($line === '') {
+                    continue;
+                }
+                $parts = explode('|', $line, 2);
+                $out[] = [
+                    'title' => trim($parts[0] ?? ''),
+                    'description' => trim($parts[1] ?? ''),
+                ];
+            }
+            if (count($out) > 0) {
+                return $out;
+            }
+        }
+
+        return $fallback;
+    }
+}
+
 if (!function_exists('create_slug')) {
     /**
      * Create a unique slug for a model.

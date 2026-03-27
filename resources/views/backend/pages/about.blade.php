@@ -133,6 +133,9 @@
                 </div>
 
                 <!-- Core Values Section -->
+                @php
+                    $coreValues = get_about_core_values();
+                @endphp
                 <div class="mb-8">
                     <h4 class="text-md font-semibold text-gray-700 border-b pb-2 mb-4 text-indigo-700">
                         💎 Core Values Section
@@ -151,13 +154,49 @@
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">{{ $settings['about_values_description'] ?? 'Our foundation is built on principles that ensure we deliver excellence consistently.' }}</textarea>
                             </div>
                         </div>
-                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Core Values List
-                                (Title|Description)</label>
-                            <textarea name="about_values_list" rows="5"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none text-sm font-mono"
-                                placeholder="Excellence|We strive for the highest standards.&#10;Inclusivity|Education for all.">{{ $settings['about_values_list'] ?? "Excellence|We strive for the highest standards in everything we do.\nInclusivity|Education for all, regardless of background or status.\nInnovation|Embracing new technologies to enhance learning.\nPassion|We are dedicated to your success and growth." }}</textarea>
-                            <p class="text-xs text-gray-500 mt-1">One value per line. Format: Title|Description</p>
+                        <div class="rounded-xl border border-dashed border-gray-200 bg-slate-50/80 p-4 text-sm text-gray-600">
+                            <p class="font-medium text-gray-700 mb-1">Structured list</p>
+                            <p class="text-xs">Each value has its own <strong>title</strong> and <strong>description</strong>. Use “Add core value” for more rows. The left bullet list shows titles; the right cards need both fields filled.</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 border border-gray-100 rounded-xl p-4 md:p-6 bg-white shadow-sm"
+                        x-data="{
+                            items: @json($coreValues),
+                            addRow() { this.items.push({ title: '', description: '' }); },
+                            removeRow(i) { if (this.items.length > 1) this.items.splice(i, 1); }
+                        }">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                            <label class="block text-sm font-semibold text-gray-800">Core values</label>
+                            <button type="button" @click="addRow"
+                                class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-indigo-50 text-indigo-700 text-sm font-semibold border border-indigo-100 hover:bg-indigo-100 transition">
+                                <i class="fas fa-plus"></i> Add core value
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <template x-for="(item, index) in items" :key="index">
+                                <div class="flex flex-col lg:flex-row gap-4 p-4 rounded-lg border border-gray-200 bg-gray-50/50 items-stretch">
+                                    <div class="flex-1 min-w-0">
+                                        <label class="block text-xs font-medium text-gray-600 mb-1">Title</label>
+                                        <input type="text" :name="'about_values_items[' + index + '][title]'" x-model="item.title"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none text-sm"
+                                            placeholder="e.g. Integrity">
+                                    </div>
+                                    <div class="flex-[2] min-w-0">
+                                        <label class="block text-xs font-medium text-gray-600 mb-1">Description</label>
+                                        <textarea :name="'about_values_items[' + index + '][description]'" x-model="item.description"
+                                            rows="2"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none text-sm"
+                                            placeholder="Short paragraph for the card"></textarea>
+                                    </div>
+                                    <div class="flex lg:flex-col justify-end lg:justify-center shrink-0">
+                                        <button type="button" @click="removeRow(index)"
+                                            class="px-3 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg border border-transparent hover:border-red-100 transition"
+                                            title="Remove this value">
+                                            <i class="fas fa-trash-alt mr-1"></i> Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </div>

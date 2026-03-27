@@ -94,7 +94,7 @@
                 <p>{{ get_setting('about_why_subheading', 'We provide industry-leading education with a focus on practical skills and career success, ensuring every student reaches their full potential.') }}</p>
             </div>
 
-            <div class="row">
+            <div class="row why-choose-cards-row">
                 @php
                     $highlights = array_filter(explode("\n", get_setting('home_about_highlights', "Certified Professional Instructors\nComprehensive Learning Materials\nIndustry-Recognized Certifications\nCareer Placement Support")));
                     $icons = ['fa-user', 'fa-book', 'fa-star', 'fa-briefcase', 'fa-graduation-cap', 'fa-check-circle'];
@@ -139,17 +139,11 @@
                         <h2>{!! get_setting('about_values_heading', 'Core Values That <span>Drive Us Forward</span>') !!}</h2>
                         <p>{{ get_setting('about_values_description', 'Our foundation is built on principles that ensure we deliver excellence consistently and transparently to all our students.') }}</p>
                         <div class="value-mini-list mt-30">
-                            @php
-                                $values_data = explode("\n", get_setting('about_values_list', "Excellence|We strive for the highest standards in everything we do.\nInclusivity|Education for all, regardless of background or status.\nInnovation|Embracing new technologies to enhance learning.\nPassion|We are dedicated to your success and growth."));
-                            @endphp
-                            @foreach($values_data as $v_line)
-                                @php
-                                    $v_parts = explode('|', $v_line);
-                                @endphp
-                                @if(count($v_parts) >= 1)
+                            @foreach(get_about_core_values() as $value_row)
+                                @if(trim($value_row['title'] ?? '') !== '')
                                     <div class="mini-item">
                                         <div class="mini-icon"><i class="fa fa-dot-circle-o"></i></div>
-                                        <span>{{ trim($v_parts[0]) }}</span>
+                                        <span>{{ $value_row['title'] }}</span>
                                     </div>
                                 @endif
                             @endforeach
@@ -160,19 +154,18 @@
                     <div class="row values-cards-row">
                         @php
                             $v_icons = ['fa-check-square-o', 'fa-handshake-o', 'fa-lightbulb-o', 'fa-heart'];
+                            $v_icon_i = 0;
                         @endphp
-                        @foreach($values_data as $index => $v_line)
-                            @php
-                                $v_parts = explode('|', $v_line);
-                            @endphp
-                            @if(count($v_parts) >= 2)
+                        @foreach(get_about_core_values() as $value_row)
+                            @if(trim($value_row['title'] ?? '') !== '' && trim($value_row['description'] ?? '') !== '')
                                 <div class="col-sm-6 mb-30">
                                     <div class="value-simple-card">
-                                        <i class="fa {{ $v_icons[$index % count($v_icons)] }}"></i>
-                                        <h4>{{ trim($v_parts[0]) }}</h4>
-                                        <p>{{ trim($v_parts[1]) }}</p>
+                                        <i class="fa {{ $v_icons[$v_icon_i % count($v_icons)] }}"></i>
+                                        <h4>{{ $value_row['title'] }}</h4>
+                                        <p>{{ $value_row['description'] }}</p>
                                     </div>
                                 </div>
+                                @php $v_icon_i++; @endphp
                             @endif
                         @endforeach
                     </div>
@@ -470,6 +463,17 @@
             background-size: 30px 30px;
             opacity: 0.5;
             z-index: -1;
+        }
+
+        /* BS3 float grid + unequal card heights can snag cols 5–6 to the right; flex + flex-start keeps rows left-aligned */
+        .why-choose-us-premium .why-choose-cards-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .why-choose-us-premium .why-choose-cards-row > [class*='col-'] {
+            float: none;
         }
 
         .sub-badge {
