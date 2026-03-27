@@ -37,8 +37,8 @@
                         <div class="section-badge">{{ get_setting('home_about_heading', 'Who We Are') }}</div>
                         <h2>{!! get_setting('about_intro_heading', 'Learn About <span>Step Up Master IT</span>') !!}</h2>
                         <div class="description-text">
-                            <p>{{ get_setting('home_about_description', 'We are dedicated to providing the highest quality education and training to empower the next generation of professionals.') }}
-                            </p>
+                            <!-- <p>{{ get_setting('home_about_description', 'We are dedicated to providing the highest quality education and training to empower the next generation of professionals.') }}
+                            </p> -->
                         </div>
 
                         <div class="mv-boxes mt-40">
