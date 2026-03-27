@@ -113,7 +113,7 @@
                 <div class="col-md-4">
                     <div class="premium-sidebar">
                         <!-- Quick Info Card -->
-                        <div class="sidebar-info-card mb-30">
+                        <div class="sidebar-info-card mb-30 d-none">
                             <div class="price-tag">
                                 <span class="fee-label">Course Investment</span>
                                 <span
