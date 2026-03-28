@@ -135,6 +135,7 @@
                 <!-- Core Values Section -->
                 @php
                     $coreValues = get_about_core_values();
+                    $coreValuesJs = \Illuminate\Support\Js::from($coreValues);
                 @endphp
                 <div class="mb-8">
                     <h4 class="text-md font-semibold text-gray-700 border-b pb-2 mb-4 text-indigo-700">
@@ -160,20 +161,16 @@
                         </div>
                     </div>
                     <div class="mt-6 border border-gray-100 rounded-xl p-4 md:p-6 bg-white shadow-sm"
-                        x-data="{
-                            items: @json($coreValues),
-                            addRow() { this.items.push({ title: '', description: '' }); },
-                            removeRow(i) { if (this.items.length > 1) this.items.splice(i, 1); }
-                        }">
+                        x-data="aboutPageCoreValues({{ $coreValuesJs }})">
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                             <label class="block text-sm font-semibold text-gray-800">Core values</label>
-                            <button type="button" @click="addRow"
+                            <button type="button" x-on:click="addRow()"
                                 class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-indigo-50 text-indigo-700 text-sm font-semibold border border-indigo-100 hover:bg-indigo-100 transition">
                                 <i class="fas fa-plus"></i> Add core value
                             </button>
                         </div>
                         <div class="space-y-4">
-                            <template x-for="(item, index) in items" :key="index">
+                            <template x-for="(item, index) in items" x-bind:key="index">
                                 <div class="flex flex-col lg:flex-row gap-4 p-4 rounded-lg border border-gray-200 bg-gray-50/50 items-stretch">
                                     <div class="flex-1 min-w-0">
                                         <label class="block text-xs font-medium text-gray-600 mb-1">Title</label>
@@ -189,7 +186,7 @@
                                             placeholder="Short paragraph for the card"></textarea>
                                     </div>
                                     <div class="flex lg:flex-col justify-end lg:justify-center shrink-0">
-                                        <button type="button" @click="removeRow(index)"
+                                        <button type="button" x-on:click="removeRow(index)"
                                             class="px-3 py-2 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg border border-transparent hover:border-red-100 transition"
                                             title="Remove this value">
                                             <i class="fas fa-trash-alt mr-1"></i> Remove
@@ -262,6 +259,32 @@
         </div>
     </div>
 
+    <script>
+        function aboutPageCoreValues(initialItems) {
+            const items = Array.isArray(initialItems) && initialItems.length
+                ? initialItems.map(function(row) {
+                    return {
+                        title: row && row.title != null ? String(row.title) : '',
+                        description: row && row.description != null ? String(row.description) : '',
+                    };
+                })
+                : [{
+                    title: '',
+                    description: ''
+                }];
+            return {
+                items: items,
+                addRow: function() {
+                    this.items.push({ title: '', description: '' });
+                },
+                removeRow: function(i) {
+                    if (this.items.length > 1) {
+                        this.items.splice(i, 1);
+                    }
+                },
+            };
+        }
+    </script>
     <style>
         @keyframes fadeInUp {
             from {
