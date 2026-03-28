@@ -113,7 +113,7 @@
                 <div class="col-md-4">
                     <div class="premium-sidebar">
                         <!-- Quick Info Card -->
-                        <div class="sidebar-info-card mb-30 d-none">
+                        <!-- <div class="sidebar-info-card mb-30 d-none">
                             <div class="price-tag">
                                 <span class="fee-label">Course Investment</span>
                                 <span
@@ -144,7 +144,7 @@
                             <a href="{{ route('contact') }}" class="btn-enroll-premium mt-30">
                                 Enquire Now <i class="fa fa-arrow-right"></i>
                             </a>
-                        </div>
+                        </div> -->
 
                         <!-- Admissions Support -->
                         <div class="sidebar-help-box mb-30">

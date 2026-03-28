@@ -85,6 +85,68 @@
                     </div>
                 </div>
 
+                <!-- CTA Section -->
+                <div class="mb-8">
+                    <h4 class="text-md font-semibold text-gray-700 border-b pb-2 mb-4 text-indigo-700">
+                        📣 Bottom call to action
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CTA heading</label>
+                                <input type="text" name="services_cta_heading"
+                                    value="{{ $settings['services_cta_heading'] ?? 'Ready to Start Your Journey With Us?' }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                                    placeholder="You can use HTML, e.g. Ready to Start Your &lt;span&gt;Journey&lt;/span&gt;?">
+                                <p class="text-xs text-gray-500 mt-1">HTML is allowed for highlights (e.g. wrap words in &lt;span&gt;).</p>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">CTA sub-heading</label>
+                                <textarea name="services_cta_subheading" rows="2"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">{{ $settings['services_cta_subheading'] ?? 'Join thousands of students who have transformed their careers through our industry-leading programs.' }}</textarea>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Primary button text</label>
+                                <input type="text" name="services_cta_btn1_text"
+                                    value="{{ $settings['services_cta_btn1_text'] ?? 'Enroll Now' }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Primary button link</label>
+                                <input type="text" name="services_cta_btn1_link"
+                                    value="{{ $settings['services_cta_btn1_link'] ?? '#' }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Secondary button text</label>
+                                <input type="text" name="services_cta_btn2_text"
+                                    value="{{ $settings['services_cta_btn2_text'] ?? 'Contact Admissions' }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Secondary button link</label>
+                                <input type="text" name="services_cta_btn2_link"
+                                    value="{{ $settings['services_cta_btn2_link'] ?? '#' }}"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 max-w-xl">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">CTA background image (optional)</label>
+                        @if(!empty($settings['services_cta_background_image'] ?? ''))
+                            <div class="mb-2 p-2 bg-gray-50 border rounded-lg inline-block">
+                                <img src="{{ asset($settings['services_cta_background_image']) }}" alt="Services CTA background"
+                                    class="h-24 w-full object-cover rounded max-w-md">
+                            </div>
+                        @endif
+                        <input type="file" name="services_cta_background_image" accept="image/*"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                        <p class="text-xs text-gray-500 mt-1">If omitted, a solid blue gradient is used (no placeholder text).</p>
+                    </div>
+                </div>
+
                 <!-- SEO Section -->
                 @include('backend.pages.seo_partial', ['page' => 'services'])
 

@@ -115,6 +115,12 @@ class PageController extends Controller
     public function update(Request $request, $page)
     {
         $fileFields = [$page . '_banner_image'];
+        if ($page === 'services') {
+            $fileFields[] = 'services_cta_background_image';
+        }
+        if ($page === 'campus') {
+            $fileFields[] = 'campus_cta_background_image';
+        }
 
         $data = $request->except(array_merge(['_token'], $fileFields));
 
@@ -128,6 +134,26 @@ class PageController extends Controller
             $file->move(public_path('uploads/settings'), $filename);
             Setting::updateOrCreate(
                 ['key' => $page . '_banner_image'],
+                ['value' => 'uploads/settings/' . $filename]
+            );
+        }
+
+        if ($page === 'services' && $request->hasFile('services_cta_background_image')) {
+            $file = $request->file('services_cta_background_image');
+            $filename = time() . '_services_cta_bg.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/settings'), $filename);
+            Setting::updateOrCreate(
+                ['key' => 'services_cta_background_image'],
+                ['value' => 'uploads/settings/' . $filename]
+            );
+        }
+
+        if ($page === 'campus' && $request->hasFile('campus_cta_background_image')) {
+            $file = $request->file('campus_cta_background_image');
+            $filename = time() . '_campus_cta_bg.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads/settings'), $filename);
+            Setting::updateOrCreate(
+                ['key' => 'campus_cta_background_image'],
                 ['value' => 'uploads/settings/' . $filename]
             );
         }

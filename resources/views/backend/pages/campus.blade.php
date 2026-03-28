@@ -39,7 +39,9 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Banner Heading</label>
                                 <input type="text" name="campus_banner_heading"
                                     value="{{ $settings['campus_banner_heading'] ?? 'Our World-Class Campuses' }}"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                                    placeholder="HTML allowed, e.g. Visit Our &lt;span&gt;Campus&lt;/span&gt; Today">
+                                <p class="text-xs text-gray-500 mt-1">Use &lt;span&gt;…&lt;/span&gt; for orange accent (rendered as HTML on the page).</p>
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Banner Sub-heading</label>
@@ -59,6 +61,7 @@
                                 @endif
                                 <input type="file" name="campus_banner_image" accept="image/*"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                                <p class="text-xs text-gray-500 mt-1">If no image is uploaded, a navy gradient is used (no placeholder watermark).</p>
                             </div>
                         </div>
                     </div>
@@ -99,10 +102,37 @@
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">CTA Sub-heading</label>
-                            <input type="text" name="campus_cta_subheading"
-                                value="{{ $settings['campus_cta_subheading'] ?? 'Take a tour and experience the professional atmosphere that will shape your future.' }}"
+                            <textarea name="campus_cta_subheading" rows="2"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">{{ $settings['campus_cta_subheading'] ?? 'Take a tour and experience the professional atmosphere that will shape your future.' }}</textarea>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">CTA button text</label>
+                            <input type="text" name="campus_cta_btn_text"
+                                value="{{ $settings['campus_cta_btn_text'] ?? 'Book a Campus Tour' }}"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
                         </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">CTA button link</label>
+                            <input type="text" name="campus_cta_btn_link"
+                                value="{{ $settings['campus_cta_btn_link'] ?? '' }}"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                                placeholder="{{ url('/contact') }}">
+                            <p class="text-xs text-gray-500 mt-1">Leave empty to use the Contact page URL.</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 max-w-xl">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">CTA background image (optional)</label>
+                        @if(!empty($settings['campus_cta_background_image'] ?? ''))
+                            <div class="mb-2 p-2 bg-gray-50 border rounded-lg inline-block">
+                                <img src="{{ asset($settings['campus_cta_background_image']) }}" alt="Campus CTA background"
+                                    class="h-24 w-full object-cover rounded max-w-md">
+                            </div>
+                        @endif
+                        <input type="file" name="campus_cta_background_image" accept="image/*"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                        <p class="text-xs text-gray-500 mt-1">If omitted, a solid navy gradient is used (no “Campus Visit” placeholder).</p>
                     </div>
                 </div>
 

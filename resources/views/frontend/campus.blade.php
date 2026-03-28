@@ -10,11 +10,14 @@
     <!-- ==============================================
                                                                         ** Inner Banner / Breadcrumb **
                                                                         =================================================== -->
-    <section class="inner-banner"
-        style="background: url('{{ get_setting_image('campus_banner_image', 'https://placehold.co/1920x400?text=Our+Campuses') }}') no-repeat center center / cover;">
+    @php
+        $campusBannerPath = get_setting('campus_banner_image');
+        $campusBannerUrl = $campusBannerPath && file_exists(public_path($campusBannerPath)) ? asset($campusBannerPath) : null;
+    @endphp
+    <section class="inner-banner"@if ($campusBannerUrl) style="background: url('{{ $campusBannerUrl }}') no-repeat center center / cover;" @endif>
         <div class="container">
             <div class="contents">
-                <h1>{{ get_setting('campus_banner_heading', 'Our World-Class Campuses') }}</h1>
+                <h1>{!! get_setting('campus_banner_heading', 'Our World-Class <span>Campuses</span>') !!}</h1>
                 <div class="banner-subheading-wrap">
                     <p>{{ get_setting('campus_banner_subheading', 'Experience a vibrant learning environment equipped with modern facilities.') }}
                     </p>
@@ -81,26 +84,34 @@
     <!-- ==============================================
                                                                         ** CTA Section **
                                                                         =================================================== -->
-    <section class="cta-section padding-lg">
+    @php
+        $campusCtaBgPath = get_setting('campus_cta_background_image');
+        $campusCtaBgUrl = $campusCtaBgPath && file_exists(public_path($campusCtaBgPath)) ? asset($campusCtaBgPath) : null;
+        $campusCtaBtnLink = trim((string) get_setting('campus_cta_btn_link', ''));
+        if ($campusCtaBtnLink === '') {
+            $campusCtaBtnLink = route('contact');
+        }
+    @endphp
+    <section class="cta-section padding-lg"@if ($campusCtaBgUrl) style="background: linear-gradient(rgba(27, 48, 92, 0.9), rgba(27, 48, 92, 0.9)), url('{{ $campusCtaBgUrl }}') no-repeat center center / cover;"@endif>
         <div class="container">
             <div class="cta-inner text-center">
                 <h2>{!! get_setting('campus_cta_heading', 'Visit Our <span>Campus Today</span>') !!}</h2>
-                <p>{{ get_setting('campus_cta_subheading', 'Take a tour and experience the professional atmosphere that will shape your future.') }}
-                </p>
+                <p>{{ get_setting('campus_cta_subheading', 'Take a tour and experience the professional atmosphere that will shape your future.') }}</p>
                 <div class="cta-btns">
-                    <a href="{{ route('contact') }}" class="btn-primary-custom">Book a Campus Tour</a>
+                    <a href="{{ $campusCtaBtnLink }}" class="btn-primary-custom">{{ get_setting('campus_cta_btn_text', 'Book a Campus Tour') }}</a>
                 </div>
             </div>
         </div>
     </section>
 
     <style>
-        /* --- Inner Banner Gap Fix --- */
+        /* --- Inner Banner (gradient when no photo; optional campus_banner_image) --- */
         .inner-banner {
             padding: 300px 0 100px !important;
             position: relative;
             color: #fff;
             text-align: center;
+            background: linear-gradient(135deg, #1b305c 0%, #243f6e 45%, #1b305c 100%);
         }
 
         /* --- Grid & Card Fixes --- */
@@ -274,6 +285,10 @@
             z-index: 5;
         }
 
+        .inner-banner h1 span {
+            color: #ff9600;
+        }
+
         .inner-banner h1::before,
         .inner-banner h1::after,
         .inner-banner .contents::before,
@@ -360,8 +375,9 @@
             line-height: 1.6;
         }
 
+        /* --- CTA (optional campus_cta_background_image sets inline background) --- */
         .cta-section {
-            background: linear-gradient(rgba(27, 48, 92, 0.9), rgba(27, 48, 92, 0.9)), url('https://placehold.co/1920x600?text=Campus+Visit') no-repeat center center / cover;
+            background: linear-gradient(135deg, #1b305c 0%, #243f6e 45%, #1b305c 100%);
             color: #fff;
         }
 
@@ -370,6 +386,9 @@
             font-weight: 800;
             color: #fff;
             margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            line-height: 1.2;
         }
 
         .cta-inner h2 span {
@@ -383,6 +402,48 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .cta-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-custom {
+            display: inline-block;
+            background-color: #ff9600;
+            color: #ffffff !important;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            transition: all 0.4s ease;
+            text-decoration: none !important;
+            border: none;
+            box-shadow: 0 10px 20px rgba(255, 150, 0, 0.2);
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #e08500;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 150, 0, 0.3);
+            color: #ffffff !important;
+        }
+
+        @media (max-width: 767px) {
+            .cta-inner h2 {
+                font-size: 28px;
+            }
+
+            .cta-btns .btn-primary-custom {
+                width: 100%;
+                max-width: 320px;
+                text-align: center;
+            }
         }
     </style>
 @endsection

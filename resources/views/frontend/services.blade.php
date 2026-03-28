@@ -79,17 +79,28 @@
     <!-- ==============================================
                                                                     ** CTA Section **
                                                                     =================================================== -->
-    <section class="cta-section padding-lg">
+    @php
+        $servicesCtaBg = get_setting('services_cta_background_image');
+        $servicesCtaBgUrl = $servicesCtaBg && file_exists(public_path($servicesCtaBg)) ? asset($servicesCtaBg) : null;
+        $servicesCtaHeading = get_setting('services_cta_heading');
+        if ($servicesCtaHeading === null || $servicesCtaHeading === '') {
+            $servicesCtaHeading = get_setting('about_cta_heading', 'Ready to Start Your <span>Journey With Us</span>?');
+        }
+        $servicesCtaSub = get_setting('services_cta_subheading');
+        if ($servicesCtaSub === null || $servicesCtaSub === '') {
+            $servicesCtaSub = get_setting('about_cta_subheading', 'Join thousands of students who have transformed their careers through our industry-leading programs.');
+        }
+    @endphp
+    <section class="cta-section padding-lg"@if ($servicesCtaBgUrl) style="background: linear-gradient(rgba(27, 48, 92, 0.9), rgba(27, 48, 92, 0.9)), url('{{ $servicesCtaBgUrl }}') no-repeat center center / cover;"@endif>
         <div class="container">
             <div class="cta-inner text-center">
-                <h2>{!! get_setting('about_cta_heading', 'Ready to Start Your <span>Journey With Us</span>?') !!}</h2>
-                <p>{{ get_setting('about_cta_subheading', 'Join thousands of students who have transformed their careers through our industry-leading programs.') }}
-                </p>
+                <h2>{!! $servicesCtaHeading !!}</h2>
+                <p>{{ $servicesCtaSub }}</p>
                 <div class="cta-btns">
-                    <a href="{{ get_setting('about_cta_btn1_link', '#') }}"
-                        class="btn-primary-custom">{{ get_setting('about_cta_btn1_text', 'Enroll Now') }}</a>
-                    <a href="{{ get_setting('about_cta_btn2_link', '#') }}"
-                        class="btn-outline-custom">{{ get_setting('about_cta_btn2_text', 'Contact Admissions') }}</a>
+                    <a href="{{ get_setting('services_cta_btn1_link') ?: get_setting('about_cta_btn1_link', '#') }}"
+                        class="btn-primary-custom">{{ get_setting('services_cta_btn1_text') ?: get_setting('about_cta_btn1_text', 'Enroll Now') }}</a>
+                    <a href="{{ get_setting('services_cta_btn2_link') ?: get_setting('about_cta_btn2_link', '#') }}"
+                        class="btn-outline-custom">{{ get_setting('services_cta_btn2_text') ?: get_setting('about_cta_btn2_text', 'Contact Admissions') }}</a>
                 </div>
             </div>
         </div>
@@ -383,9 +394,9 @@
             transform: translateX(8px);
         }
 
-        /* --- CTA Section --- */
+        /* --- CTA Section (matches About page; optional photo via admin sets inline background) --- */
         .cta-section {
-            background: linear-gradient(rgba(27, 48, 92, 0.9), rgba(27, 48, 92, 0.9)), url('https://placehold.co/1920x600?text=CTA+Background') no-repeat center center / cover;
+            background: linear-gradient(135deg, #1b305c 0%, #243f6e 45%, #1b305c 100%);
             color: #fff;
         }
 
@@ -394,6 +405,9 @@
             font-weight: 800;
             color: #fff;
             margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            line-height: 1.2;
         }
 
         .cta-inner h2 span {
@@ -433,6 +447,47 @@
         .btn-outline-custom:hover {
             background: #fff;
             color: #1b305c !important;
+        }
+
+        .btn-primary-custom {
+            display: inline-block;
+            background-color: #ff9600;
+            color: #ffffff !important;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            transition: all 0.4s ease;
+            text-decoration: none !important;
+            border: none;
+            box-shadow: 0 10px 20px rgba(255, 150, 0, 0.2);
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #e08500;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 150, 0, 0.3);
+        }
+
+        @media (max-width: 767px) {
+            .cta-inner h2 {
+                font-size: 28px;
+            }
+
+            .cta-btns {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+
+            .cta-btns .btn-primary-custom,
+            .cta-btns .btn-outline-custom {
+                width: 100%;
+                max-width: 320px;
+                text-align: center;
+            }
         }
     </style>
 @endsection
