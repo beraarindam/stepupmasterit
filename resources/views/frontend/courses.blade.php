@@ -33,7 +33,7 @@
                                                             =================================================== -->
     <section class="courses-page-section padding-lg">
         <div class="container">
-            <div class="row">
+            <div class="row courses-page-layout">
                 <!-- Sidebar: Categories -->
                 <div class="col-md-3">
                     <div class="course-sidebar-premium">
@@ -67,8 +67,8 @@
                 </div>
 
                 <!-- Main Content: Courses Grid -->
-                <div class="col-md-9">
-                    <div class="courses-toolbar mb-40 flex-header">
+                <div class="col-md-9 courses-main-col">
+                    <div class="courses-toolbar flex-header">
                         <div class="results-count">
                             Showing <span>{{ $courses->firstItem() ?? 0 }}-{{ $courses->lastItem() ?? 0 }}</span> of
                             {{ $courses->total() }} courses
@@ -82,9 +82,9 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row courses-grid-row">
                         @forelse($courses as $course)
-                            <div class="col-md-6 col-sm-6 mb-40">
+                            <div class="col-md-6 col-sm-6">
                                 <div class="modern-course-card-v2">
                                     <div class="course-thumb">
                                         <img src="{{ $course->image ? asset($course->image) : 'https://placehold.co/600x400?text=Course+Image' }}"
@@ -334,6 +334,16 @@
             color: #1b305c;
         }
 
+        /* --- Page layout --- */
+        .courses-page-section.padding-lg {
+            padding-top: 90px;
+        }
+
+        .courses-main-col {
+            display: block;
+            width: 100%;
+        }
+
         /* --- Toolbar --- */
         .courses-toolbar {
             display: flex;
@@ -344,6 +354,8 @@
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
             border: 1px solid #f1f5f9;
+            width: 100%;
+            margin-bottom: 40px;
         }
 
         .results-count {
@@ -379,12 +391,14 @@
         }
 
         /* --- Modern Course Card V2 --- */
-        .courses-page-section .row {
+        .courses-grid-row {
             display: flex;
             flex-wrap: wrap;
+            width: 100%;
+            row-gap: 40px;
         }
 
-        .courses-page-section .row > [class*='col-'] {
+        .courses-grid-row > [class*='col-'] {
             display: flex;
         }
 
