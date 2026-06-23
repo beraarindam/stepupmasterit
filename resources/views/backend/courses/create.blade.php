@@ -70,10 +70,32 @@
                             </div>
                         </div>
 
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Intakes</label>
+                                <input type="text" name="intakes" value="{{ old('intakes') }}"
+                                    placeholder="e.g. September, January"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Campuses</label>
+                                <input type="text" name="campuses" value="{{ old('campuses') }}"
+                                    placeholder="e.g. Manchester, London"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Delivery</label>
+                                <input type="text" name="delivery" value="{{ old('delivery') }}"
+                                    placeholder="e.g. Full-time, On-campus"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
+                            </div>
+                        </div>
+
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Short Description</label>
-                            <textarea name="short_description" rows="3"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">{{ old('short_description') }}</textarea>
+                            <textarea name="short_description" rows="5"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none editor">{{ old('short_description') }}</textarea>
+                            <p class="text-xs text-gray-500 mt-1">Rich text editor — lists and formatting appear on the course page.</p>
                         </div>
 
                         <div class="mb-4">
@@ -92,6 +114,7 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Detailed Description</label>
                             <textarea name="description" rows="9"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none editor">{{ old('description') }}</textarea>
+                            <p class="text-xs text-gray-500 mt-1">Shown on the Overview tab on the course details page.</p>
                         </div>
 
                         <div class="mb-4">
@@ -115,6 +138,8 @@
                         </div>
                     </div>
                 </div>
+
+                @include('backend.courses.partials.learning_outcomes', ['items' => old('learning_outcomes', [''])])
 
                 <div class="mt-8 pt-6 border-t border-gray-100 flex justify-end">
                     <button type="submit"

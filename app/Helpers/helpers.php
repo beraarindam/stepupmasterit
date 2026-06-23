@@ -85,6 +85,80 @@ if (!function_exists('format_course_fee')) {
     }
 }
 
+if (!function_exists('render_rich_content')) {
+    /**
+     * Output CKEditor HTML or legacy plain text (with line breaks).
+     */
+    function render_rich_content(?string $content): string
+    {
+        if ($content === null || trim($content) === '') {
+            return '';
+        }
+
+        $content = trim($content);
+        if ($content === strip_tags($content)) {
+            return nl2br(e($content));
+        }
+
+        return $content;
+    }
+}
+
+if (!function_exists('rich_text_excerpt')) {
+    /**
+     * Plain-text excerpt for cards/listings (strips HTML from CKEditor content).
+     */
+    function rich_text_excerpt(?string $content, int $limit = 100): string
+    {
+        if ($content === null || trim($content) === '') {
+            return '';
+        }
+
+        return Str::limit(trim(strip_tags($content)), $limit);
+    }
+}
+
+if (!function_exists('get_course_learning_outcomes')) {
+    /**
+     * Learning outcomes for the course Curriculum tab.
+     *
+     * @return array<int, string>
+     */
+    function get_course_learning_outcomes($course): array
+    {
+        static $fallback = null;
+        if ($fallback === null) {
+            $fallback = [
+                'Master core industry concepts & tools',
+                'Hands-on project experience with experts',
+                'Global certification readiness & support',
+                'Career guidance and placement assistance',
+            ];
+        }
+
+        $raw = $course->learning_outcomes ?? null;
+        if (is_string($raw) && $raw !== '') {
+            $decoded = json_decode($raw, true);
+            $raw = is_array($decoded) ? $decoded : null;
+        }
+
+        if (is_array($raw) && count($raw) > 0) {
+            $out = [];
+            foreach ($raw as $item) {
+                $text = is_array($item) ? trim((string) ($item['text'] ?? '')) : trim((string) $item);
+                if ($text !== '') {
+                    $out[] = $text;
+                }
+            }
+            if (count($out) > 0) {
+                return $out;
+            }
+        }
+
+        return $fallback;
+    }
+}
+
 if (!function_exists('get_about_core_values')) {
     /**
      * Core values for the About page (admin JSON, legacy textarea, or defaults).

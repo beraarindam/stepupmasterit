@@ -230,7 +230,7 @@
                                         class="text-secondary">{{ $course->title }}</a>
                                 </h3>
                                 <div class="course-subtitle text-gray text-13 mb-15">
-                                    {{ Str::limit($course->short_description, 100) }}
+                                    {{ rich_text_excerpt($course->short_description, 100) }}
                                 </div>
 
                                 <div class="course-footer flex justify-center items-center pt-15 border-top">

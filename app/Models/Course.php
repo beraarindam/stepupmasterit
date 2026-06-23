@@ -12,10 +12,18 @@ class Course extends Model
         'slug',
         'duration',
         'fee',
+        'intakes',
+        'campuses',
+        'delivery',
         'short_description',
         'description',
+        'learning_outcomes',
         'image',
         'status'
+    ];
+
+    protected $casts = [
+        'learning_outcomes' => 'array',
     ];
 
     public function category()

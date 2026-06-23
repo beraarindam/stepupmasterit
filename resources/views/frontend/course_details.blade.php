@@ -70,7 +70,7 @@
                                             <div class="header-line-custom"></div>
                                         </div>
                                         <div class="rich-text-area">
-                                            {!! $course->description !!}
+                                            {!! render_rich_content($course->description) !!}
                                         </div>
                                     </div>
                                     <div class="tab-pane animated-fast fadeInUp" id="curriculum">
@@ -78,30 +78,40 @@
                                             <h2 class="content-header">Curriculum & Learning</h2>
                                             <div class="header-line-custom"></div>
                                         </div>
+                                        @if(trim(strip_tags((string) ($course->short_description ?? ''))) !== '')
                                         <div class="rich-text-area">
-                                            {!! $course->short_description !!}
-                                            <div class="learning-outcome-box mt-40">
-                                                <h4>What you'll achieve:</h4>
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <ul class="benefit-list">
-                                                            <li><i class="fa fa-check-circle"></i> Master core industry
-                                                                concepts & tools</li>
-                                                            <li><i class="fa fa-check-circle"></i> Hands-on project
-                                                                experience with experts</li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <ul class="benefit-list">
-                                                            <li><i class="fa fa-check-circle"></i> Global certification
-                                                                readiness & support</li>
-                                                            <li><i class="fa fa-check-circle"></i> Career guidance and
-                                                                placement assistance</li>
-                                                        </ul>
-                                                    </div>
+                                            {!! render_rich_content($course->short_description) !!}
+                                        </div>
+                                        @endif
+                                        @php
+                                            $learningOutcomes = get_course_learning_outcomes($course);
+                                            $outcomeSplit = (int) ceil(count($learningOutcomes) / 2);
+                                            $outcomesCol1 = array_slice($learningOutcomes, 0, $outcomeSplit);
+                                            $outcomesCol2 = array_slice($learningOutcomes, $outcomeSplit);
+                                        @endphp
+                                        @if(count($learningOutcomes) > 0)
+                                        <div class="learning-outcome-box mt-40">
+                                            <h4>What you'll achieve:</h4>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <ul class="benefit-list">
+                                                        @foreach($outcomesCol1 as $outcome)
+                                                            <li><i class="fa fa-check-circle"></i> {{ $outcome }}</li>
+                                                        @endforeach
+                                                    </ul>
                                                 </div>
+                                                @if(count($outcomesCol2) > 0)
+                                                <div class="col-sm-6">
+                                                    <ul class="benefit-list">
+                                                        @foreach($outcomesCol2 as $outcome)
+                                                            <li><i class="fa fa-check-circle"></i> {{ $outcome }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                @endif
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -112,39 +122,56 @@
                 <!-- Sidebar -->
                 <div class="col-md-4">
                     <div class="premium-sidebar">
-                        <!-- Quick Info Card -->
-                        <!-- <div class="sidebar-info-card mb-30 d-none">
+                        @php
+                            $hasCourseMeta = $course->duration || $course->fee || $course->intakes || $course->campuses || $course->delivery || $course->category;
+                        @endphp
+                        @if($hasCourseMeta)
+                        <div class="sidebar-info-card mb-30">
+                            @if($course->fee)
                             <div class="price-tag">
                                 <span class="fee-label">Course Investment</span>
-                                <span
-                                    class="fee-value">{{ format_course_fee($course->fee) }}</span>
+                                <span class="fee-value">{{ format_course_fee($course->fee) }}</span>
                             </div>
+                            @endif
 
                             <ul class="meta-info-list">
+                                @if($course->duration)
                                 <li>
                                     <span class="meta-label"><i class="fa fa-clock-o"></i> Duration</span>
-                                    <span class="meta-value">{{ $course->duration ?? '4-6 Weeks' }}</span>
+                                    <span class="meta-value">{{ $course->duration }}</span>
                                 </li>
-                                <li>
-                                    <span class="meta-label"><i class="fa fa-signal"></i> Level</span>
-                                    <span class="meta-value">Beginner to Expert</span>
-                                </li>
-                                @if($course->category)
-                                    <li>
-                                        <span class="meta-label"><i class="fa fa-folder-open"></i> Category</span>
-                                        <span class="meta-value">{{ $course->category->name }}</span>
-                                    </li>
                                 @endif
+                                @if($course->intakes)
                                 <li>
-                                    <span class="meta-label"><i class="fa fa-language"></i> Language</span>
-                                    <span class="meta-value">English / Hindi</span>
+                                    <span class="meta-label"><i class="fa fa-calendar"></i> Intakes</span>
+                                    <span class="meta-value">{{ $course->intakes }}</span>
                                 </li>
+                                @endif
+                                @if($course->campuses)
+                                <li>
+                                    <span class="meta-label"><i class="fa fa-map-marker"></i> Campuses</span>
+                                    <span class="meta-value">{{ $course->campuses }}</span>
+                                </li>
+                                @endif
+                                @if($course->delivery)
+                                <li>
+                                    <span class="meta-label"><i class="fa fa-graduation-cap"></i> Delivery</span>
+                                    <span class="meta-value">{{ $course->delivery }}</span>
+                                </li>
+                                @endif
+                                @if($course->category)
+                                <li>
+                                    <span class="meta-label"><i class="fa fa-folder-open"></i> Category</span>
+                                    <span class="meta-value">{{ $course->category->name }}</span>
+                                </li>
+                                @endif
                             </ul>
 
                             <a href="{{ route('contact') }}" class="btn-enroll-premium mt-30">
                                 Enquire Now <i class="fa fa-arrow-right"></i>
                             </a>
-                        </div> -->
+                        </div>
+                        @endif
 
                         <!-- Admissions Support -->
                         <div class="sidebar-help-box mb-30">
@@ -240,6 +267,7 @@
             font-size: 52px;
             font-weight: 900;
             margin-bottom: 25px;
+            color: #fff;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -287,6 +315,10 @@
             color: #ff9600;
         }
 
+        .breadcrumb-custom li {
+            color: #fff;
+        }
+
         /* --- Main Content --- */
         .content-header-wrap {
             margin-bottom: 30px;
@@ -313,6 +345,97 @@
             color: #475569;
             line-height: 1.8;
             font-size: 16px;
+        }
+
+        .rich-text-area p {
+            margin: 0 0 1em;
+        }
+
+        .rich-text-area p:last-child {
+            margin-bottom: 0;
+        }
+
+        .rich-text-area ul,
+        .rich-text-area ol {
+            margin: 0 0 1.25em;
+            padding-left: 1.75em;
+        }
+
+        .rich-text-area ul {
+            list-style: disc;
+        }
+
+        .rich-text-area ol {
+            list-style: decimal;
+        }
+
+        .rich-text-area li {
+            display: list-item;
+            margin-bottom: 0.5em;
+        }
+
+        .rich-text-area ul ul,
+        .rich-text-area ol ul {
+            list-style-type: circle;
+            margin-top: 0.5em;
+        }
+
+        .rich-text-area ol ol {
+            list-style-type: lower-alpha;
+        }
+
+        .rich-text-area strong,
+        .rich-text-area b {
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .rich-text-area em,
+        .rich-text-area i {
+            font-style: italic;
+        }
+
+        .rich-text-area h2,
+        .rich-text-area h3,
+        .rich-text-area h4 {
+            font-weight: 800;
+            color: #1b305c;
+            margin: 1.25em 0 0.75em;
+            line-height: 1.35;
+        }
+
+        .rich-text-area h2 {
+            font-size: 1.5rem;
+        }
+
+        .rich-text-area h3 {
+            font-size: 1.25rem;
+        }
+
+        .rich-text-area h4 {
+            font-size: 1.1rem;
+        }
+
+        .rich-text-area a {
+            color: #ff9600;
+            text-decoration: underline;
+        }
+
+        .rich-text-area a:hover {
+            color: #e08500;
+        }
+
+        .rich-text-area blockquote {
+            margin: 1em 0;
+            padding: 1em 1.25em;
+            border-left: 4px solid #ff9600;
+            background: #f8fafc;
+        }
+
+        .rich-text-area img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
         }
 
         .learning-outcome-box {

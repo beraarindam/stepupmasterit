@@ -98,7 +98,7 @@
                                         </div>
                                         <h3>{{ $course->title }}</h3>
                                         <div class="course-desc">
-                                            {!! Str::limit(strip_tags($course->description), 100) !!}
+                                            {{ rich_text_excerpt($course->short_description ?: $course->description, 100) }}
                                         </div>
                                         <div class="course-card-footer">
                                             <a href="{{ route('course.details', $course->slug) }}"

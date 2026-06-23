@@ -67,6 +67,24 @@ class CourseController extends Controller
         return view('backend.courses.create', compact('categories'));
     }
 
+    private function normalizeLearningOutcomes(Request $request): array
+    {
+        $rows = $request->input('learning_outcomes', []);
+        if (! is_array($rows)) {
+            return [];
+        }
+
+        $clean = [];
+        foreach ($rows as $row) {
+            $text = is_array($row) ? trim((string) ($row['text'] ?? '')) : trim((string) $row);
+            if ($text !== '') {
+                $clean[] = $text;
+            }
+        }
+
+        return $clean;
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -74,14 +92,18 @@ class CourseController extends Controller
             'title' => 'required|max:255',
             'duration' => 'nullable|max:255',
             'fee' => 'nullable|max:255',
+            'intakes' => 'nullable|max:255',
+            'campuses' => 'nullable|max:255',
+            'delivery' => 'nullable|max:255',
             'short_description' => 'nullable',
             'description' => 'nullable',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|in:active,inactive'
         ]);
 
-        $data = $request->except(['image']);
+        $data = $request->except(['image', 'learning_outcomes']);
         $data['slug'] = create_slug(Course::class, $request->title);
+        $data['learning_outcomes'] = $this->normalizeLearningOutcomes($request);
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -116,16 +138,20 @@ class CourseController extends Controller
             'title' => 'required|max:255',
             'duration' => 'nullable|max:255',
             'fee' => 'nullable|max:255',
+            'intakes' => 'nullable|max:255',
+            'campuses' => 'nullable|max:255',
+            'delivery' => 'nullable|max:255',
             'short_description' => 'nullable',
             'description' => 'nullable',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|in:active,inactive'
         ]);
 
-        $data = $request->except(['image']);
+        $data = $request->except(['image', 'learning_outcomes']);
         if ($request->title !== $course->title) {
             $data['slug'] = create_slug(Course::class, $request->title, $course->id);
         }
+        $data['learning_outcomes'] = $this->normalizeLearningOutcomes($request);
 
         if ($request->hasFile('image')) {
             if ($course->image && file_exists(public_path($course->image))) {

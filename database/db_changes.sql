@@ -184,3 +184,13 @@ ALTER TABLE `branches`
     ADD COLUMN `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active' AFTER `sort_order`,
     ADD COLUMN `created_at` TIMESTAMP NULL AFTER `status`,
     ADD COLUMN `updated_at` TIMESTAMP NULL AFTER `created_at`;
+
+-- 23-06-2026: Course intakes, campuses, delivery
+ALTER TABLE `courses`
+    ADD COLUMN `intakes` VARCHAR(255) NULL AFTER `fee`,
+    ADD COLUMN `campuses` VARCHAR(255) NULL AFTER `intakes`,
+    ADD COLUMN `delivery` VARCHAR(255) NULL AFTER `campuses`;
+
+-- 23-06-2026: Course learning outcomes (JSON array of strings)
+ALTER TABLE `courses`
+    ADD COLUMN `learning_outcomes` TEXT NULL AFTER `description`;
