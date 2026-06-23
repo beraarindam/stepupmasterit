@@ -242,7 +242,7 @@
                     @endforeach
                 </div>
             </div>
-            <div class="text-center mt-50">
+            <div class="text-center course-list-all-btn-wrap">
                 <a href="{{ route('courses') }}" class="btn-primary-custom">VIEW ALL COURSES</a>
             </div>
         </div>
@@ -886,6 +886,11 @@
             background: #ff9600 !important;
             width: 32px;
             border-radius: 12px;
+        }
+
+        .course-list-all-btn-wrap {
+            margin-top: 60px;
+            padding-top: 10px;
         }
 
         /* Final Action Button */
