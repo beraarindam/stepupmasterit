@@ -57,6 +57,34 @@ if (!function_exists('get_setting_image')) {
     }
 }
 
+if (!function_exists('format_course_fee')) {
+    /**
+     * Format course fee for display (fee is stored as text in admin).
+     */
+    function format_course_fee($fee, string $currency = '₹', string $fallback = 'TBD'): string
+    {
+        if ($fee === null || $fee === '') {
+            return $fallback;
+        }
+
+        if (is_int($fee) || is_float($fee)) {
+            return $currency . number_format($fee);
+        }
+
+        $feeStr = trim((string) $fee);
+        if ($feeStr === '') {
+            return $fallback;
+        }
+
+        $numeric = preg_replace('/[^\d.]/', '', $feeStr);
+        if ($numeric !== '' && is_numeric($numeric)) {
+            return $currency . number_format((float) $numeric);
+        }
+
+        return $feeStr;
+    }
+}
+
 if (!function_exists('get_about_core_values')) {
     /**
      * Core values for the About page (admin JSON, legacy textarea, or defaults).

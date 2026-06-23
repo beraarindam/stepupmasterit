@@ -117,7 +117,7 @@
                             <div class="price-tag">
                                 <span class="fee-label">Course Investment</span>
                                 <span
-                                    class="fee-value">{{ $course->fee ? '₹' . number_format($course->fee) : 'TBD' }}</span>
+                                    class="fee-value">{{ format_course_fee($course->fee) }}</span>
                             </div>
 
                             <ul class="meta-info-list">
