@@ -230,7 +230,7 @@
                                         class="text-secondary">{{ $course->title }}</a>
                                 </h3>
                                 <div class="course-subtitle text-gray text-13 mb-15">
-                                    {{ rich_text_excerpt($course->short_description, 100) }}
+                                    {{ rich_text_excerpt($course->short_description ?: $course->description, 70) }}
                                 </div>
 
                                 <div class="course-footer flex justify-center items-center pt-15 border-top">
@@ -508,6 +508,21 @@
             transform: translateX(5px);
         }
 
+        /* Owl carousel: equal-height cards in each row */
+        .course-slider.owl-carousel .owl-stage {
+            display: flex;
+            align-items: stretch;
+        }
+
+        .course-slider.owl-carousel .owl-item {
+            display: flex;
+            height: auto;
+        }
+
+        .course-slider .course-card {
+            width: 100%;
+        }
+
         /* --- Enhanced Course UI (Maya Reference Style) --- */
         .course-card {
             background: #fff;
@@ -756,7 +771,10 @@
         .course-body {
             padding: 25px !important;
             background: #ffffff !important;
-            flex-grow: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
 
         .course-title {
@@ -766,6 +784,11 @@
             margin-bottom: 12px !important;
             font-weight: 700 !important;
             text-transform: none !important;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(1.3em * 2);
         }
 
         .course-title a {
@@ -776,8 +799,14 @@
         .course-subtitle {
             font-size: 14px;
             color: #718096;
-            margin-bottom: 25px;
-            line-height: 1.6;
+            margin-bottom: 16px;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(1.5em * 3);
+            flex: 1;
         }
 
         .course-footer {
@@ -785,6 +814,7 @@
             padding-top: 20px;
             border-top: 1px solid #f0f4f8;
             text-align: center;
+            flex-shrink: 0;
         }
 
         .btn-view-details {

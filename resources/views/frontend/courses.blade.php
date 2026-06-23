@@ -98,7 +98,7 @@
                                         </div>
                                         <h3>{{ $course->title }}</h3>
                                         <div class="course-desc">
-                                            {{ rich_text_excerpt($course->short_description ?: $course->description, 100) }}
+                                            {{ rich_text_excerpt($course->short_description ?: $course->description, 70) }}
                                         </div>
                                         <div class="course-card-footer">
                                             <a href="{{ route('course.details', $course->slug) }}"
@@ -379,6 +379,15 @@
         }
 
         /* --- Modern Course Card V2 --- */
+        .courses-page-section .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .courses-page-section .row > [class*='col-'] {
+            display: flex;
+        }
+
         .modern-course-card-v2 {
             background: #fff;
             border-radius: 20px;
@@ -460,19 +469,31 @@
             font-weight: 800;
             margin-bottom: 12px;
             line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(1.3em * 2);
         }
 
         .course-desc {
             font-size: 14px;
             color: #64748b;
-            line-height: 1.6;
-            margin-bottom: 25px;
+            line-height: 1.5;
+            margin-bottom: 20px;
             flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(1.5em * 3);
         }
 
         .course-card-footer {
             padding-top: 20px;
             border-top: 1px solid #f1f5f9;
+            margin-top: auto;
+            flex-shrink: 0;
         }
 
         .btn-view-details {
