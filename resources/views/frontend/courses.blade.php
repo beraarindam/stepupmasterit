@@ -33,9 +33,9 @@
                                                             =================================================== -->
     <section class="courses-page-section padding-lg">
         <div class="container">
-            <div class="row courses-page-layout">
+            <div class="courses-page-layout">
                 <!-- Sidebar: Categories -->
-                <div class="col-md-3">
+                <aside class="courses-sidebar-col">
                     <div class="course-sidebar-premium">
                         <div class="sidebar-widget">
                             <h4 class="widget-title">Categories</h4>
@@ -64,11 +64,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </aside>
 
                 <!-- Main Content: Courses Grid -->
-                <div class="col-md-9 courses-main-col">
-                    <div class="courses-toolbar flex-header">
+                <div class="courses-main-col">
+                    <div class="courses-toolbar">
                         <div class="results-count">
                             Showing <span>{{ $courses->firstItem() ?? 0 }}-{{ $courses->lastItem() ?? 0 }}</span> of
                             {{ $courses->total() }} courses
@@ -82,9 +82,9 @@
                         </div>
                     </div>
 
-                    <div class="row courses-grid-row">
+                    <div class="courses-grid-row">
                         @forelse($courses as $course)
-                            <div class="col-md-6 col-sm-6">
+                            <div class="courses-grid-item">
                                 <div class="modern-course-card-v2">
                                     <div class="course-thumb">
                                         <img src="{{ $course->image ? asset($course->image) : 'https://placehold.co/600x400?text=Course+Image' }}"
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="col-xs-12 text-center">
+                            <div class="courses-grid-item courses-grid-item--full text-center">
                                 <div class="empty-state-v2">
                                     <i class="fa fa-book fa-4x text-gray-200"></i>
                                     <h3>No courses found in this category.</h3>
@@ -335,13 +335,31 @@
         }
 
         /* --- Page layout --- */
-        .courses-page-section.padding-lg {
-            padding-top: 90px;
+        .courses-page-layout {
+            display: grid;
+            grid-template-columns: 280px minmax(0, 1fr);
+            gap: 30px;
+            align-items: start;
+        }
+
+        .courses-sidebar-col {
+            min-width: 0;
         }
 
         .courses-main-col {
-            display: block;
+            min-width: 0;
             width: 100%;
+        }
+
+        @media (max-width: 991px) {
+            .courses-page-layout {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .course-sidebar-premium {
+                padding-right: 0;
+            }
         }
 
         /* --- Toolbar --- */
@@ -349,6 +367,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
             background: #fff;
             padding: 20px 30px;
             border-radius: 15px;
@@ -392,14 +412,28 @@
 
         /* --- Modern Course Card V2 --- */
         .courses-grid-row {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 40px 30px;
             width: 100%;
-            row-gap: 40px;
+            margin: 0;
+            padding: 0;
         }
 
-        .courses-grid-row > [class*='col-'] {
+        .courses-grid-item {
             display: flex;
+            min-width: 0;
+        }
+
+        .courses-grid-item--full {
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 767px) {
+            .courses-grid-row {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
         }
 
         .modern-course-card-v2 {
