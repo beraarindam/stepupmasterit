@@ -74,17 +74,11 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Intakes</label>
                                 <input type="text" name="intakes" value="{{ old('intakes', $course->intakes) }}"
                                     placeholder="e.g. September, January"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Campuses</label>
-                                <input type="text" name="campuses" value="{{ old('campuses', $course->campuses) }}"
-                                    placeholder="e.g. Manchester, London"
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
                             </div>
                             <div>
@@ -94,6 +88,8 @@
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none">
                             </div>
                         </div>
+
+                        @include('backend.courses.partials.campus_select', ['selectedCampusIds' => $selectedCampusIds ?? []])
 
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Short Description</label>

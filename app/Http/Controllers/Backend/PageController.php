@@ -128,6 +128,13 @@ class PageController extends Controller
             Setting::updateOrCreate(['key' => $key], ['value' => $value]);
         }
 
+        if ($page === 'contact' && $request->filled('contact_map_iframe')) {
+            Setting::updateOrCreate(
+                ['key' => 'map_url'],
+                ['value' => $request->input('contact_map_iframe')]
+            );
+        }
+
         if ($request->hasFile($page . '_banner_image')) {
             $file = $request->file($page . '_banner_image');
             $filename = time() . "_{$page}_banner." . $file->getClientOriginalExtension();

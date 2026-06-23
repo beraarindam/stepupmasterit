@@ -250,3 +250,119 @@ if (!function_exists('create_slug')) {
         return $slug . '-' . $i;
     }
 }
+
+if (!function_exists('normalize_map_embed_url')) {
+    /**
+     * Normalize Google Maps embed value (plain URL or full iframe HTML).
+     */
+    function normalize_map_embed_url($value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        $value = trim((string) $value);
+        if ($value === '') {
+            return null;
+        }
+
+        if (preg_match('/src=["\']([^"\']+)["\']/i', $value, $matches)) {
+            return trim($matches[1]);
+        }
+
+        return $value;
+    }
+}
+
+if (!function_exists('get_contact_map_url')) {
+    /**
+     * Resolve the contact page map embed URL from settings and branches.
+     */
+    function get_contact_map_url($branches = null): ?string
+    {
+        foreach (['map_url', 'contact_map_iframe'] as $key) {
+            $url = normalize_map_embed_url(get_setting($key));
+            if ($url) {
+                return $url;
+            }
+        }
+
+        if ($branches) {
+            foreach ($branches as $branch) {
+                $url = normalize_map_embed_url($branch->map_embed ?? null);
+                if ($url) {
+                    return $url;
+                }
+            }
+        }
+
+        return null;
+    }
+}
+
+if (!function_exists('get_course_campus_ids')) {
+    /**
+     * Parse stored course campuses value into campus IDs (supports legacy comma-separated titles).
+     *
+     * @return int[]
+     */
+    function get_course_campus_ids(?string $value): array
+    {
+        if ($value === null || trim($value) === '') {
+            return [];
+        }
+
+        $parts = array_values(array_filter(array_map('trim', explode(',', $value))));
+        if ($parts === []) {
+            return [];
+        }
+
+        if (collect($parts)->every(fn ($part) => ctype_digit($part))) {
+            return array_map('intval', $parts);
+        }
+
+        $campuses = \App\Models\Campus::query()
+            ->where('status', 'active')
+            ->get(['id', 'title']);
+
+        $ids = [];
+        foreach ($parts as $part) {
+            $match = $campuses->first(fn ($campus) => strcasecmp($campus->title, $part) === 0);
+            if ($match) {
+                $ids[] = (int) $match->id;
+            }
+        }
+
+        return array_values(array_unique($ids));
+    }
+}
+
+if (!function_exists('format_course_campuses')) {
+    /**
+     * Display course campuses as comma-separated campus titles.
+     */
+    function format_course_campuses(?string $value): string
+    {
+        if ($value === null || trim($value) === '') {
+            return '';
+        }
+
+        $parts = array_values(array_filter(array_map('trim', explode(',', $value))));
+        if ($parts === []) {
+            return '';
+        }
+
+        if (collect($parts)->every(fn ($part) => ctype_digit($part))) {
+            $titles = \App\Models\Campus::query()
+                ->whereIn('id', array_map('intval', $parts))
+                ->orderBy('title')
+                ->pluck('title');
+
+            if ($titles->isNotEmpty()) {
+                return $titles->implode(', ');
+            }
+        }
+
+        return $value;
+    }
+}

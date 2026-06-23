@@ -147,10 +147,10 @@
                                     <span class="meta-value">{{ $course->intakes }}</span>
                                 </li>
                                 @endif
-                                @if($course->campuses)
+                                @if($course->campus_labels)
                                 <li>
                                     <span class="meta-label"><i class="fa fa-map-marker"></i> Campuses</span>
-                                    <span class="meta-value">{{ $course->campuses }}</span>
+                                    <span class="meta-value">{{ $course->campus_labels }}</span>
                                 </li>
                                 @endif
                                 @if($course->delivery)

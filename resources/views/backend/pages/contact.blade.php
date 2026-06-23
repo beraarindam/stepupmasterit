@@ -100,7 +100,7 @@
                             SRC)</label>
                         <textarea name="contact_map_iframe" rows="3"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                            placeholder="https://www.google.com/maps/embed?pb=...">{{ $settings['contact_map_iframe'] ?? '' }}</textarea>
+                            placeholder="https://www.google.com/maps/embed?pb=...">{{ $settings['contact_map_iframe'] ?? $settings['map_url'] ?? '' }}</textarea>
                         <p class="text-xs text-gray-500 mt-1">Paste ONLY the 'src' value from the Google Maps embed code.
                         </p>
                     </div>

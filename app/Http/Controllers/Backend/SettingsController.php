@@ -27,6 +27,13 @@ class SettingsController extends Controller
             );
         }
 
+        if ($request->filled('map_url')) {
+            Setting::updateOrCreate(
+                ['key' => 'contact_map_iframe'],
+                ['value' => $request->input('map_url')]
+            );
+        }
+
         if ($request->hasFile('site_logo')) {
             $file = $request->file('site_logo');
             $filename = time() . '_logo.' . $file->getClientOriginalExtension();
