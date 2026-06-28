@@ -59,29 +59,21 @@ if (!function_exists('get_setting_image')) {
 
 if (!function_exists('format_course_fee')) {
     /**
-     * Format course fee for display (fee is stored as text in admin).
+     * Display course fee exactly as entered in admin (plain text, no currency conversion).
      */
-    function format_course_fee($fee, string $currency = '₹', string $fallback = 'TBD'): string
+    function format_course_fee($fee, string $fallback = 'TBD'): string
     {
         if ($fee === null || $fee === '') {
             return $fallback;
         }
 
         if (is_int($fee) || is_float($fee)) {
-            return $currency . number_format($fee);
+            return (string) $fee;
         }
 
         $feeStr = trim((string) $fee);
-        if ($feeStr === '') {
-            return $fallback;
-        }
 
-        $numeric = preg_replace('/[^\d.]/', '', $feeStr);
-        if ($numeric !== '' && is_numeric($numeric)) {
-            return $currency . number_format((float) $numeric);
-        }
-
-        return $feeStr;
+        return $feeStr !== '' ? $feeStr : $fallback;
     }
 }
 
@@ -297,72 +289,5 @@ if (!function_exists('get_contact_map_url')) {
         }
 
         return null;
-    }
-}
-
-if (!function_exists('get_course_campus_ids')) {
-    /**
-     * Parse stored course campuses value into campus IDs (supports legacy comma-separated titles).
-     *
-     * @return int[]
-     */
-    function get_course_campus_ids(?string $value): array
-    {
-        if ($value === null || trim($value) === '') {
-            return [];
-        }
-
-        $parts = array_values(array_filter(array_map('trim', explode(',', $value))));
-        if ($parts === []) {
-            return [];
-        }
-
-        if (collect($parts)->every(fn ($part) => ctype_digit($part))) {
-            return array_map('intval', $parts);
-        }
-
-        $campuses = \App\Models\Campus::query()
-            ->where('status', 'active')
-            ->get(['id', 'title']);
-
-        $ids = [];
-        foreach ($parts as $part) {
-            $match = $campuses->first(fn ($campus) => strcasecmp($campus->title, $part) === 0);
-            if ($match) {
-                $ids[] = (int) $match->id;
-            }
-        }
-
-        return array_values(array_unique($ids));
-    }
-}
-
-if (!function_exists('format_course_campuses')) {
-    /**
-     * Display course campuses as comma-separated campus titles.
-     */
-    function format_course_campuses(?string $value): string
-    {
-        if ($value === null || trim($value) === '') {
-            return '';
-        }
-
-        $parts = array_values(array_filter(array_map('trim', explode(',', $value))));
-        if ($parts === []) {
-            return '';
-        }
-
-        if (collect($parts)->every(fn ($part) => ctype_digit($part))) {
-            $titles = \App\Models\Campus::query()
-                ->whereIn('id', array_map('intval', $parts))
-                ->orderBy('title')
-                ->pluck('title');
-
-            if ($titles->isNotEmpty()) {
-                return $titles->implode(', ');
-            }
-        }
-
-        return $value;
     }
 }

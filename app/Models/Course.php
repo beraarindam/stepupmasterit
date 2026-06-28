@@ -30,14 +30,4 @@ class Course extends Model
     {
         return $this->belongsTo(CourseCategory::class, 'category_id');
     }
-
-    public function getCampusIdsAttribute(): array
-    {
-        return get_course_campus_ids($this->campuses);
-    }
-
-    public function getCampusLabelsAttribute(): string
-    {
-        return format_course_campuses($this->campuses);
-    }
 }

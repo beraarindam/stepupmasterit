@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Course;
-use App\Models\Campus;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -65,8 +64,7 @@ class CourseController extends Controller
     public function create()
     {
         $categories = \App\Models\CourseCategory::where('status', 'active')->get();
-        $campuses = $this->campusList();
-        return view('backend.courses.create', compact('categories', 'campuses'));
+        return view('backend.courses.create', compact('categories'));
     }
 
     private function normalizeLearningOutcomes(Request $request): array
@@ -87,26 +85,6 @@ class CourseController extends Controller
         return $clean;
     }
 
-    private function campusList()
-    {
-        return Campus::where('status', 'active')->orderBy('title')->get();
-    }
-
-    private function normalizeCampuses(Request $request): ?string
-    {
-        $ids = $request->input('campus_ids', []);
-        if (! is_array($ids)) {
-            return null;
-        }
-
-        $ids = array_values(array_unique(array_filter(array_map('intval', $ids))));
-        if ($ids === []) {
-            return null;
-        }
-
-        return implode(',', $ids);
-    }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -115,8 +93,7 @@ class CourseController extends Controller
             'duration' => 'nullable|max:255',
             'fee' => 'nullable|max:255',
             'intakes' => 'nullable|max:255',
-            'campus_ids' => 'nullable|array',
-            'campus_ids.*' => 'integer|exists:campuses,id',
+            'campuses' => 'nullable|max:255',
             'delivery' => 'nullable|max:255',
             'short_description' => 'nullable',
             'description' => 'nullable',
@@ -124,10 +101,9 @@ class CourseController extends Controller
             'status' => 'required|in:active,inactive'
         ]);
 
-        $data = $request->except(['image', 'learning_outcomes', 'campus_ids']);
+        $data = $request->except(['image', 'learning_outcomes']);
         $data['slug'] = create_slug(Course::class, $request->title);
         $data['learning_outcomes'] = $this->normalizeLearningOutcomes($request);
-        $data['campuses'] = $this->normalizeCampuses($request);
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -150,9 +126,7 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id);
         $categories = \App\Models\CourseCategory::where('status', 'active')->get();
-        $campuses = $this->campusList();
-        $selectedCampusIds = get_course_campus_ids($course->campuses);
-        return view('backend.courses.edit', compact('course', 'categories', 'campuses', 'selectedCampusIds'));
+        return view('backend.courses.edit', compact('course', 'categories'));
     }
 
     public function update(Request $request, string $id)
@@ -165,8 +139,7 @@ class CourseController extends Controller
             'duration' => 'nullable|max:255',
             'fee' => 'nullable|max:255',
             'intakes' => 'nullable|max:255',
-            'campus_ids' => 'nullable|array',
-            'campus_ids.*' => 'integer|exists:campuses,id',
+            'campuses' => 'nullable|max:255',
             'delivery' => 'nullable|max:255',
             'short_description' => 'nullable',
             'description' => 'nullable',
@@ -174,12 +147,11 @@ class CourseController extends Controller
             'status' => 'required|in:active,inactive'
         ]);
 
-        $data = $request->except(['image', 'learning_outcomes', 'campus_ids']);
+        $data = $request->except(['image', 'learning_outcomes']);
         if ($request->title !== $course->title) {
             $data['slug'] = create_slug(Course::class, $request->title, $course->id);
         }
         $data['learning_outcomes'] = $this->normalizeLearningOutcomes($request);
-        $data['campuses'] = $this->normalizeCampuses($request);
 
         if ($request->hasFile('image')) {
             if ($course->image && file_exists(public_path($course->image))) {
