@@ -583,10 +583,11 @@
 
         .fee-value {
             display: block;
-            font-size: 38px;
-            font-weight: 900;
+            font-size: 22px;
+            font-weight: 700;
             color: #1b305c;
-            margin-top: 5px;
+            margin-top: 8px;
+            line-height: 1.45;
         }
 
         .meta-info-list {
